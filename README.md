@@ -14,7 +14,7 @@ Job boards bury the good roles under hundreds of near-misses, and re-reading the
 
 ## What it does
 
-- **Scrapes real jobs from free sources** — hidden career-site JSON APIs (Amazon, Workday tenants, SmartRecruiters), ATS boards (Greenhouse / Lever / Ashby), RSS feeds (WeWorkRemotely), Algolia (Hacker News "Who is hiring"), and headless-Chrome-rendered boards (Apple, Google, Netflix). Zero paid infrastructure.
+- **Scrapes real jobs from free sources** — hidden career-site JSON APIs (Amazon, Workday tenants, SmartRecruiters), ATS boards (Greenhouse / Lever / Ashby), RSS feeds (WeWorkRemotely), Algolia (Hacker News "Who is hiring"), and Eightfold boards (Netflix). Zero paid infrastructure. Apple and Google are supported too but experimental — they need headless Chrome and time out often.
 - **Ranks with Claude** — every posting is scored 0–10 against each of your résumés, with a short "why this score" and the best-matching résumé called out. Seniority is a hard filter; location and work mode softly steer the ranking.
 - **Tells you when it matters** — new matches above your threshold get pushed to Telegram. Quiet when there's nothing new.
 - **Drafts your application** — one click generates a tailored cover letter and CV tweaks for a specific role (drafter → reviewer pass), using Claude Opus.

@@ -51,12 +51,14 @@ Each entry is a scraper config. `active: false` skips it. Supported `source` val
 | `ats`            | `provider` + company ref  | `greenhouse`/`ashby`/`lever`/`smartrecruiters` (`slug`) or `workday` (`host`+`tenant`+`site`) |
 | `amazon`         | optional `query`          | amazon.jobs hidden JSON API             |
 | `eightfold`      | `base` + `domain`         | Eightfold boards (Netflix etc.), plain GET |
-| `apple`          | optional `query`          | rendered via headless Chrome (Akamai blocks plain HTTP) |
-| `google`         | optional `query`          | Google Careers, rendered via headless Chrome |
+| `apple`          | optional `query`          | ⚠️ experimental — headless Chrome (Akamai blocks plain HTTP); times out often |
+| `google`         | optional `query`          | ⚠️ experimental — Google Careers via headless Chrome; times out often |
 | `jobspy`         | `site` + `query`          | Indeed / Google Jobs via JobSpy (Python) |
 
-`apple`/`google` need Chrome or Chromium installed (auto-detected; override with
-`JH_CHROME`). `jobspy` needs a one-time setup in this folder — the GitHub workflow
+`apple`/`google` are best-effort: they need Chrome or Chromium installed (auto-detected;
+override with `JH_CHROME`) and still time out frequently behind anti-bot protection —
+treat them as experimental, not reliable daily sources. `jobspy` needs a one-time setup
+in this folder — the GitHub workflow
 installs it itself:
 
 ```bash
