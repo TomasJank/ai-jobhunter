@@ -4,7 +4,7 @@
 
 No LinkedIn scraping, no paid data vendors, no server bill. It pulls straight from free career-site APIs and ATS boards, scores every posting with an LLM, and runs itself daily from a free GitHub Actions cron. Your résumés and match data never leave your machine.
 
-![Dashboard](docs/dashboard.png)
+![AI Jobhunter walkthrough](docs/demo.gif)
 
 ---
 
