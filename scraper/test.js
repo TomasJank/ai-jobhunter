@@ -48,7 +48,7 @@ assert.ok(formatMessage(many).includes(`and 3 more`), 'overflow note when over c
 assert.strictEqual(bestScore({ resume_scores: {}, best_resume_id: 'x' }), 0);
 
 // Source detection: known platforms, Workday host parse, and blocked sites
-const { detectFromUrl } = require('./detect');
+const { detectFromUrl, companyFromHost } = require('./detect');
 assert.strictEqual(detectFromUrl('https://boards.greenhouse.io/figma').config.provider, 'greenhouse');
 assert.strictEqual(detectFromUrl('jobs.lever.co/netlify').config.provider, 'lever');
 const wd = detectFromUrl('https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/jobs').config;
@@ -58,6 +58,10 @@ assert.strictEqual(wd.site, 'NVIDIAExternalCareerSite');
 assert.ok(detectFromUrl('https://www.linkedin.com/jobs').blocked, 'LinkedIn must be blocked');
 assert.ok(detectFromUrl('https://careers.microsoft.com/us/en').blocked, 'Microsoft must be blocked');
 assert.strictEqual(detectFromUrl('https://example.com/careers'), null, 'unknown site → null');
+// Company label extraction (feeds the URL-that-isn't-a-known-ATS probe fallback)
+assert.strictEqual(companyFromHost('www.hostinger.com'), 'hostinger');
+assert.strictEqual(companyFromHost('careers.google.com'), 'google');
+assert.strictEqual(companyFromHost('jobs.example.co.uk'), 'example');
 
 // Seniority preferences: classify + hard filter
 const { seniorityLevel, passesSeniority } = require('./prefs');

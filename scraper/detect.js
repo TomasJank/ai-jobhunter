@@ -16,6 +16,22 @@ const BLOCKED = [
 
 const slugify = s => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
 
+// Pull the company label out of a careers hostname so we can probe its ATS.
+// www.hostinger.com/career -> "hostinger", careers.google.com -> "google".
+// ponytail: naive TLD strip with a small two-part-TLD list; a miss just falls
+// through to the "unknown" message, so no need for a full public-suffix list.
+const TWO_PART_TLD = new Set(['co.uk', 'com.au', 'co.nz', 'com.br', 'co.jp', 'com.mx']);
+const HOST_JUNK = new Set(['www', 'careers', 'career', 'jobs', 'job', 'apply', 'work', 'join', 'boards']);
+function companyFromHost(host) {
+  const labels = String(host || '').toLowerCase().split('.').filter(Boolean);
+  if (labels.length < 2) return '';
+  let end = labels.length - 1;                                    // drop TLD
+  if (labels.length >= 3 && TWO_PART_TLD.has(labels.slice(-2).join('.'))) end -= 1;
+  const core = labels.slice(0, end);                              // e.g. ['www','hostinger']
+  const meaningful = core.filter(l => !HOST_JUNK.has(l));
+  return meaningful[meaningful.length - 1] || core[core.length - 1] || '';
+}
+
 // Parse a known platform straight out of the URL. Returns a config draft or null.
 function detectFromUrl(raw) {
   let u;
@@ -74,12 +90,18 @@ async function probeCompany(name) {
 async function detect(input) {
   const trimmed = String(input || '').trim();
   if (!trimmed) return { error: 'empty input' };
-  const looksUrl = /[./]/.test(trimmed) && !/^[a-z0-9 .&-]+$/i.test(trimmed) === false ? /\.|\//.test(trimmed) : false;
 
   const fromUrl = detectFromUrl(trimmed);
   if (fromUrl) return fromUrl;                       // matched platform or blocked
   if (/\.|\//.test(trimmed) && trimmed.includes('.')) {
-    // looked like a URL/domain but no known platform
+    // Looked like a URL but the host isn't a known ATS. Many companies self-host
+    // their careers page while the jobs live in a hidden ATS (Hostinger -> Ashby),
+    // so probe the domain's company label before giving up.
+    let host = '';
+    try { host = new URL(trimmed.includes('://') ? trimmed : 'https://' + trimmed).hostname; } catch { /* not a URL */ }
+    const company = companyFromHost(host);
+    const probed = company ? await probeCompany(company) : null;
+    if (probed) return probed;
     return { unknown: true, reason: `Couldn't identify a supported job platform at "${trimmed}". Supported: Greenhouse, Lever, Ashby, SmartRecruiters, Workday, Amazon, Apple, Google, Eightfold.` };
   }
   const probed = await probeCompany(trimmed);        // treat as a company name
@@ -87,4 +109,4 @@ async function detect(input) {
   return { unknown: true, reason: `No public Greenhouse/Lever/Ashby/SmartRecruiters board found for "${trimmed}". If they have a careers page, paste its URL instead.` };
 }
 
-module.exports = { detect, detectFromUrl, probeCompany, BLOCKED, slugify };
+module.exports = { detect, detectFromUrl, probeCompany, companyFromHost, BLOCKED, slugify };
