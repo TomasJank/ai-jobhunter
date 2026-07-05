@@ -1,0 +1,21 @@
+{
+  "locations": [
+    "Remote",
+    "Lithuania",
+    "EU"
+  ],
+  "work_modes": [
+    "remote",
+    "hybrid"
+  ],
+  "seniority": [
+    "junior",
+    "mid",
+    "senior",
+    "staff",
+    "lead",
+    "principal"
+  ],
+  "notify_min_score": 6,
+  "telegram_enabled": true
+}

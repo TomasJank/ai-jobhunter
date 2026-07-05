@@ -1,0 +1,49 @@
+name: Scrape jobs daily
+
+on:
+  schedule:
+    # GitHub cron is UTC. 06:00 UTC = 09:00 Lithuania in summer (EEST), 08:00 in winter (EET).
+    # To change the frequency, edit this one line (e.g. '0 6,15 * * *' for twice a day).
+    - cron: '0 6 * * *'
+  workflow_dispatch: {}     # allow manual runs from the Actions tab
+
+permissions:
+  contents: write           # to commit the regenerated live-data.js
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        working-directory: scraper
+        run: |
+          npm install
+          pip install python-jobspy   # Indeed/Google-Jobs boards; Chrome is preinstalled on runners
+
+      - name: Run scraper
+        working-directory: scraper
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}     # optional; omit to skip scoring
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # optional; omit to skip Telegram
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: npm start
+
+      - name: Commit refreshed data + seen-state if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scraper/live-data.js scraper/seen.json scraper/scans.json
+          git diff --cached --quiet || git commit -m "chore: refresh scraped jobs [skip ci]"
+          git push
+
+# (registered 2026-07-04T05:54)

@@ -1,0 +1,14 @@
+{
+  "name": "jobhunter-scraper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Daily job scraper for the Jobhunter prototype (API/RSS sources + LLM match scoring)",
+  "scripts": {
+    "start": "node run.js",
+    "serve": "node server.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.109.0"
+  }
+}
