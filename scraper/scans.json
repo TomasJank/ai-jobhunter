@@ -1,5 +1,76 @@
 [
   {
+    "at": "2026-07-06T09:57:43.128Z",
+    "sources": [
+      {
+        "name": "Remote OK — frontend",
+        "source": "remoteok",
+        "ok": true,
+        "count": 6
+      },
+      {
+        "name": "WeWorkRemotely — Front-End",
+        "source": "weworkremotely",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "HN — Who is hiring",
+        "source": "hackernews",
+        "ok": true,
+        "count": 3
+      },
+      {
+        "name": "Greenhouse — Stripe",
+        "source": "ats",
+        "ok": true,
+        "count": 5
+      },
+      {
+        "name": "Amazon — frontend",
+        "source": "amazon",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — Nvidia",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "SmartRecruiters — Visa",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Netflix (Eightfold)",
+        "source": "eightfold",
+        "ok": true,
+        "count": 3
+      },
+      {
+        "name": "Apple — frontend",
+        "source": "apple",
+        "ok": true,
+        "count": 2
+      },
+      {
+        "name": "Google — frontend",
+        "source": "google",
+        "ok": true,
+        "count": 3
+      }
+    ],
+    "ok": 10,
+    "failed": 0,
+    "unique": 38,
+    "new": 3,
+    "scored": false,
+    "notified": 0
+  },
+  {
     "at": "2026-07-05T14:22:17.555Z",
     "sources": [
       {
