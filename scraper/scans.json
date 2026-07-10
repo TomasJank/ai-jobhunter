@@ -1,45 +1,45 @@
 [
   {
-    "at": "2026-07-10T02:46:17.107Z",
+    "at": "2026-07-10T09:20:18.412Z",
     "sources": [
       {
-        "name": "Remote OK \u2014 frontend",
+        "name": "Remote OK — frontend",
         "source": "remoteok",
         "ok": true,
         "count": 0
       },
       {
-        "name": "WeWorkRemotely \u2014 Front-End",
+        "name": "WeWorkRemotely — Front-End",
         "source": "weworkremotely",
         "ok": true,
         "count": 8
       },
       {
-        "name": "HN \u2014 Who is hiring",
+        "name": "HN — Who is hiring",
         "source": "hackernews",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Greenhouse \u2014 Stripe",
+        "name": "Greenhouse — Stripe",
         "source": "ats",
         "ok": true,
         "count": 6
       },
       {
-        "name": "Amazon \u2014 frontend",
+        "name": "Amazon — frontend",
         "source": "amazon",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Nvidia",
+        "name": "Workday — Nvidia",
         "source": "ats",
         "ok": true,
         "count": 0
       },
       {
-        "name": "SmartRecruiters \u2014 Visa",
+        "name": "SmartRecruiters — Visa",
         "source": "ats",
         "ok": true,
         "count": 0
@@ -51,91 +51,270 @@
         "count": 3
       },
       {
-        "name": "Apple \u2014 frontend",
+        "name": "Apple — frontend",
         "source": "apple",
         "ok": true,
-        "count": 7
+        "count": 1
       },
       {
-        "name": "Google \u2014 frontend",
+        "name": "Google — frontend",
         "source": "google",
         "ok": true,
         "count": 6
       },
       {
-        "name": "Ashby \u2014 Notion",
+        "name": "Ashby — Notion",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Greenhouse \u2014 Jump Trading",
+        "name": "Greenhouse — Jump Trading",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Greenhouse \u2014 Tower Research Capital",
+        "name": "Greenhouse — Tower Research Capital",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Greenhouse \u2014 Point72",
+        "name": "Greenhouse — Point72",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Lever \u2014 Palantir",
+        "name": "Lever — Palantir",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Adobe",
+        "name": "Workday — Adobe",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 T-Mobile",
+        "name": "Workday — T-Mobile",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Vanguard",
+        "name": "Workday — Vanguard",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Capital One",
+        "name": "Workday — Capital One",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 GE Vernova",
+        "name": "Workday — GE Vernova",
         "source": "ats",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Apollo",
+        "name": "Workday — Apollo",
         "source": "ats",
         "ok": true,
         "count": 2
       },
       {
-        "name": "Oracle \u2014 JPMorgan Chase",
+        "name": "Oracle — JPMorgan Chase",
         "source": "ats",
         "ok": true,
         "count": 4
       },
       {
-        "name": "Oracle \u2014 Honeywell",
+        "name": "Oracle — Honeywell",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Microsoft Careers",
+        "source": "pcsx",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Qualcomm Careers",
+        "source": "pcsx",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Intuit Careers",
+        "source": "radancy",
+        "ok": true,
+        "count": 4
+      },
+      {
+        "name": "Barclays Careers",
+        "source": "radancy",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "IBM Careers",
+        "source": "ibm",
+        "ok": true,
+        "count": 8
+      }
+    ],
+    "ok": 28,
+    "failed": 0,
+    "unique": 165,
+    "new": 5,
+    "scored": false,
+    "notified": 0
+  },
+  {
+    "at": "2026-07-10T02:46:17.107Z",
+    "sources": [
+      {
+        "name": "Remote OK — frontend",
+        "source": "remoteok",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "WeWorkRemotely — Front-End",
+        "source": "weworkremotely",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "HN — Who is hiring",
+        "source": "hackernews",
+        "ok": true,
+        "count": 3
+      },
+      {
+        "name": "Greenhouse — Stripe",
+        "source": "ats",
+        "ok": true,
+        "count": 6
+      },
+      {
+        "name": "Amazon — frontend",
+        "source": "amazon",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — Nvidia",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "SmartRecruiters — Visa",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Netflix (Eightfold)",
+        "source": "eightfold",
+        "ok": true,
+        "count": 3
+      },
+      {
+        "name": "Apple — frontend",
+        "source": "apple",
+        "ok": true,
+        "count": 7
+      },
+      {
+        "name": "Google — frontend",
+        "source": "google",
+        "ok": true,
+        "count": 6
+      },
+      {
+        "name": "Ashby — Notion",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Greenhouse — Jump Trading",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Greenhouse — Tower Research Capital",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Greenhouse — Point72",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Lever — Palantir",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — Adobe",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — T-Mobile",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — Vanguard",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — Capital One",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — GE Vernova",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — Apollo",
+        "source": "ats",
+        "ok": true,
+        "count": 2
+      },
+      {
+        "name": "Oracle — JPMorgan Chase",
+        "source": "ats",
+        "ok": true,
+        "count": 4
+      },
+      {
+        "name": "Oracle — Honeywell",
         "source": "ats",
         "ok": true,
         "count": 8
@@ -182,43 +361,43 @@
     "at": "2026-07-10T02:27:50.161Z",
     "sources": [
       {
-        "name": "Remote OK \u2014 frontend",
+        "name": "Remote OK — frontend",
         "source": "remoteok",
         "ok": true,
         "count": 0
       },
       {
-        "name": "WeWorkRemotely \u2014 Front-End",
+        "name": "WeWorkRemotely — Front-End",
         "source": "weworkremotely",
         "ok": true,
         "count": 3
       },
       {
-        "name": "HN \u2014 Who is hiring",
+        "name": "HN — Who is hiring",
         "source": "hackernews",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Greenhouse \u2014 Stripe",
+        "name": "Greenhouse — Stripe",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Amazon \u2014 frontend",
+        "name": "Amazon — frontend",
         "source": "amazon",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Workday \u2014 Nvidia",
+        "name": "Workday — Nvidia",
         "source": "ats",
         "ok": true,
         "count": 0
       },
       {
-        "name": "SmartRecruiters \u2014 Visa",
+        "name": "SmartRecruiters — Visa",
         "source": "ats",
         "ok": true,
         "count": 0
@@ -230,91 +409,91 @@
         "count": 3
       },
       {
-        "name": "Apple \u2014 frontend",
+        "name": "Apple — frontend",
         "source": "apple",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Google \u2014 frontend",
+        "name": "Google — frontend",
         "source": "google",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Ashby \u2014 Notion",
+        "name": "Ashby — Notion",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Greenhouse \u2014 Jump Trading",
+        "name": "Greenhouse — Jump Trading",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Greenhouse \u2014 Tower Research Capital",
+        "name": "Greenhouse — Tower Research Capital",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Greenhouse \u2014 Point72",
+        "name": "Greenhouse — Point72",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Lever \u2014 Palantir",
+        "name": "Lever — Palantir",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Workday \u2014 Adobe",
+        "name": "Workday — Adobe",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Workday \u2014 T-Mobile",
+        "name": "Workday — T-Mobile",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Workday \u2014 Vanguard",
+        "name": "Workday — Vanguard",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Workday \u2014 Capital One",
+        "name": "Workday — Capital One",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Workday \u2014 GE Vernova",
+        "name": "Workday — GE Vernova",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Workday \u2014 Apollo",
+        "name": "Workday — Apollo",
         "source": "ats",
         "ok": true,
         "count": 2
       },
       {
-        "name": "Oracle \u2014 JPMorgan Chase",
+        "name": "Oracle — JPMorgan Chase",
         "source": "ats",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Oracle \u2014 Honeywell",
+        "name": "Oracle — Honeywell",
         "source": "ats",
         "ok": true,
         "count": 3
@@ -361,43 +540,43 @@
     "at": "2026-07-09T09:22:53.087Z",
     "sources": [
       {
-        "name": "Remote OK \u2014 frontend",
+        "name": "Remote OK — frontend",
         "source": "remoteok",
         "ok": true,
         "count": 1
       },
       {
-        "name": "WeWorkRemotely \u2014 Front-End",
+        "name": "WeWorkRemotely — Front-End",
         "source": "weworkremotely",
         "ok": true,
         "count": 8
       },
       {
-        "name": "HN \u2014 Who is hiring",
+        "name": "HN — Who is hiring",
         "source": "hackernews",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Greenhouse \u2014 Stripe",
+        "name": "Greenhouse — Stripe",
         "source": "ats",
         "ok": true,
         "count": 6
       },
       {
-        "name": "Amazon \u2014 frontend",
+        "name": "Amazon — frontend",
         "source": "amazon",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Nvidia",
+        "name": "Workday — Nvidia",
         "source": "ats",
         "ok": true,
         "count": 0
       },
       {
-        "name": "SmartRecruiters \u2014 Visa",
+        "name": "SmartRecruiters — Visa",
         "source": "ats",
         "ok": true,
         "count": 0
@@ -409,13 +588,13 @@
         "count": 3
       },
       {
-        "name": "Apple \u2014 frontend",
+        "name": "Apple — frontend",
         "source": "apple",
         "ok": true,
         "count": 4
       },
       {
-        "name": "Google \u2014 frontend",
+        "name": "Google — frontend",
         "source": "google",
         "ok": true,
         "count": 6
@@ -432,43 +611,43 @@
     "at": "2026-07-08T08:09:44.104Z",
     "sources": [
       {
-        "name": "Remote OK \u2014 frontend",
+        "name": "Remote OK — frontend",
         "source": "remoteok",
         "ok": true,
         "count": 3
       },
       {
-        "name": "WeWorkRemotely \u2014 Front-End",
+        "name": "WeWorkRemotely — Front-End",
         "source": "weworkremotely",
         "ok": true,
         "count": 8
       },
       {
-        "name": "HN \u2014 Who is hiring",
+        "name": "HN — Who is hiring",
         "source": "hackernews",
         "ok": true,
         "count": 2
       },
       {
-        "name": "Greenhouse \u2014 Stripe",
+        "name": "Greenhouse — Stripe",
         "source": "ats",
         "ok": true,
         "count": 6
       },
       {
-        "name": "Amazon \u2014 frontend",
+        "name": "Amazon — frontend",
         "source": "amazon",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Nvidia",
+        "name": "Workday — Nvidia",
         "source": "ats",
         "ok": true,
         "count": 0
       },
       {
-        "name": "SmartRecruiters \u2014 Visa",
+        "name": "SmartRecruiters — Visa",
         "source": "ats",
         "ok": true,
         "count": 0
@@ -480,13 +659,13 @@
         "count": 3
       },
       {
-        "name": "Apple \u2014 frontend",
+        "name": "Apple — frontend",
         "source": "apple",
         "ok": true,
         "count": 5
       },
       {
-        "name": "Google \u2014 frontend",
+        "name": "Google — frontend",
         "source": "google",
         "ok": true,
         "count": 5
@@ -503,43 +682,43 @@
     "at": "2026-07-07T09:25:18.557Z",
     "sources": [
       {
-        "name": "Remote OK \u2014 frontend",
+        "name": "Remote OK — frontend",
         "source": "remoteok",
         "ok": true,
         "count": 6
       },
       {
-        "name": "WeWorkRemotely \u2014 Front-End",
+        "name": "WeWorkRemotely — Front-End",
         "source": "weworkremotely",
         "ok": true,
         "count": 8
       },
       {
-        "name": "HN \u2014 Who is hiring",
+        "name": "HN — Who is hiring",
         "source": "hackernews",
         "ok": true,
         "count": 2
       },
       {
-        "name": "Greenhouse \u2014 Stripe",
+        "name": "Greenhouse — Stripe",
         "source": "ats",
         "ok": true,
         "count": 5
       },
       {
-        "name": "Amazon \u2014 frontend",
+        "name": "Amazon — frontend",
         "source": "amazon",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Nvidia",
+        "name": "Workday — Nvidia",
         "source": "ats",
         "ok": true,
         "count": 0
       },
       {
-        "name": "SmartRecruiters \u2014 Visa",
+        "name": "SmartRecruiters — Visa",
         "source": "ats",
         "ok": true,
         "count": 0
@@ -551,13 +730,13 @@
         "count": 3
       },
       {
-        "name": "Apple \u2014 frontend",
+        "name": "Apple — frontend",
         "source": "apple",
         "ok": true,
         "count": 1
       },
       {
-        "name": "Google \u2014 frontend",
+        "name": "Google — frontend",
         "source": "google",
         "ok": true,
         "count": 5
@@ -574,43 +753,43 @@
     "at": "2026-07-06T09:57:43.128Z",
     "sources": [
       {
-        "name": "Remote OK \u2014 frontend",
+        "name": "Remote OK — frontend",
         "source": "remoteok",
         "ok": true,
         "count": 6
       },
       {
-        "name": "WeWorkRemotely \u2014 Front-End",
+        "name": "WeWorkRemotely — Front-End",
         "source": "weworkremotely",
         "ok": true,
         "count": 8
       },
       {
-        "name": "HN \u2014 Who is hiring",
+        "name": "HN — Who is hiring",
         "source": "hackernews",
         "ok": true,
         "count": 3
       },
       {
-        "name": "Greenhouse \u2014 Stripe",
+        "name": "Greenhouse — Stripe",
         "source": "ats",
         "ok": true,
         "count": 5
       },
       {
-        "name": "Amazon \u2014 frontend",
+        "name": "Amazon — frontend",
         "source": "amazon",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Nvidia",
+        "name": "Workday — Nvidia",
         "source": "ats",
         "ok": true,
         "count": 0
       },
       {
-        "name": "SmartRecruiters \u2014 Visa",
+        "name": "SmartRecruiters — Visa",
         "source": "ats",
         "ok": true,
         "count": 0
@@ -622,13 +801,13 @@
         "count": 3
       },
       {
-        "name": "Apple \u2014 frontend",
+        "name": "Apple — frontend",
         "source": "apple",
         "ok": true,
         "count": 2
       },
       {
-        "name": "Google \u2014 frontend",
+        "name": "Google — frontend",
         "source": "google",
         "ok": true,
         "count": 3
@@ -645,43 +824,43 @@
     "at": "2026-07-05T14:22:17.555Z",
     "sources": [
       {
-        "name": "Remote OK \u2014 frontend",
+        "name": "Remote OK — frontend",
         "source": "remoteok",
         "ok": true,
         "count": 7
       },
       {
-        "name": "WeWorkRemotely \u2014 Front-End",
+        "name": "WeWorkRemotely — Front-End",
         "source": "weworkremotely",
         "ok": true,
         "count": 8
       },
       {
-        "name": "HN \u2014 Who is hiring",
+        "name": "HN — Who is hiring",
         "source": "hackernews",
         "ok": true,
         "count": 2
       },
       {
-        "name": "Greenhouse \u2014 Stripe",
+        "name": "Greenhouse — Stripe",
         "source": "ats",
         "ok": true,
         "count": 5
       },
       {
-        "name": "Amazon \u2014 frontend",
+        "name": "Amazon — frontend",
         "source": "amazon",
         "ok": true,
         "count": 8
       },
       {
-        "name": "Workday \u2014 Nvidia",
+        "name": "Workday — Nvidia",
         "source": "ats",
         "ok": true,
         "count": 0
       },
       {
-        "name": "SmartRecruiters \u2014 Visa",
+        "name": "SmartRecruiters — Visa",
         "source": "ats",
         "ok": true,
         "count": 0
@@ -693,13 +872,13 @@
         "count": 3
       },
       {
-        "name": "Apple \u2014 frontend",
+        "name": "Apple — frontend",
         "source": "apple",
         "ok": true,
         "count": 1
       },
       {
-        "name": "Google \u2014 frontend",
+        "name": "Google — frontend",
         "source": "google",
         "ok": true,
         "count": 3
