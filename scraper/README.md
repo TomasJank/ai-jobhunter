@@ -23,9 +23,10 @@ Open it and go to **Scraper config**. From there you can, with changes saved to
 `sources.json` / `prefs.json` automatically:
 
 - **Add a job site** — paste a careers URL or type a company name. It auto-detects the
-  platform (Greenhouse/Lever/Ashby/SmartRecruiters/Workday/Amazon/Apple/Google/Eightfold),
-  or probes the common ATSes by company name. Unsupported sites (LinkedIn, Glassdoor,
-  Meta, Microsoft) show a clear "can't scrape this" warning.
+  platform (Greenhouse/Lever/Ashby/SmartRecruiters/Workday/Oracle Cloud/Amazon/Apple/
+  Google/Microsoft/IBM/Eightfold), or probes the common ATSes by company name.
+  Unsupported sites (LinkedIn, Glassdoor, Meta, Tesla, Citadel, D.E. Shaw, BNP Paribas,
+  TikTok) show a clear "can't scrape this" warning.
 - **Toggle / delete** any source.
 - **Preferences**: seniority levels (deselected levels are filtered out — intern is off by
   default), work mode, preferred locations, Telegram threshold, Telegram on/off.
@@ -48,9 +49,12 @@ Each entry is a scraper config. `active: false` skips it. Supported `source` val
 | `remoteok`       | —                         | RemoteOK JSON API; optional `tags`      |
 | `weworkremotely` | `category` (RSS slug)     | e.g. `remote-front-end-programming-jobs`|
 | `hackernews`     | —                         | latest "Ask HN: Who is hiring?" thread  |
-| `ats`            | `provider` + company ref  | `greenhouse`/`ashby`/`lever`/`smartrecruiters` (`slug`) or `workday` (`host`+`tenant`+`site`) |
+| `ats`            | `provider` + company ref  | `greenhouse`/`ashby`/`lever`/`smartrecruiters` (`slug`), `workday` (`host`+`tenant`+`site`), or `oracle` (`host`+`site`, e.g. JP Morgan / Honeywell) |
 | `amazon`         | optional `query`          | amazon.jobs hidden JSON API             |
 | `eightfold`      | `base` + `domain`         | Eightfold boards (Netflix etc.), plain GET |
+| `pcsx`           | `base` + `company`        | ⚠️ experimental — Eightfold PCSX sites (Microsoft, Qualcomm) via headless Chrome |
+| `radancy`        | `base` + `company`        | Radancy sites (Intuit, Barclays), server-rendered HTML |
+| `ibm`            | optional `query`          | IBM careers public search API           |
 | `apple`          | optional `query`          | ⚠️ experimental — headless Chrome (Akamai blocks plain HTTP); times out often |
 | `google`         | optional `query`          | ⚠️ experimental — Google Careers via headless Chrome; times out often |
 | `jobspy`         | `site` + `query`          | Indeed / Google Jobs via JobSpy (Python) |

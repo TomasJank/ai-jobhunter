@@ -83,7 +83,29 @@ async function smartrecruiters(config) {
   }));
 }
 
-const providers = { greenhouse, ashby, lever, workday, smartrecruiters };
+// Oracle Recruiting Cloud (JP Morgan, Honeywell, ...) — public CandidateExperience REST.
+// Config: { host: "jpmc.fa.oraclecloud.com", site: "CX_1001", company: "JPMorgan Chase" }
+async function oracle(config) {
+  const { host, site } = config;
+  if (!host || !site) throw new Error('oracle needs host, site');
+  // NB: adding sortBy to the finder silently disables the keyword filter — don't.
+  const kw = config.query ? `,keyword=${encodeURIComponent(`"${config.query}"`)}` : '';
+  const data = await fetchJSON(
+    `https://${host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions?onlyData=true` +
+    `&expand=requisitionList.secondaryLocations&finder=findReqs;siteNumber=${site},limit=20${kw}`);
+  const list = (((data.items || [])[0]) || {}).requisitionList || [];
+  return list.map(j => ({
+    title: j.Title,
+    company: config.company || '',
+    location: j.PrimaryLocation || '',
+    posted_at: j.PostedDate || '',
+    url: `https://${host}/hcmUI/CandidateExperience/en/sites/${site}/job/${j.Id}`,
+    description: `<p>${j.Title}${j.PrimaryLocation ? ` — ${j.PrimaryLocation}` : ''}</p>`,
+    employment_type: 'Full-time',
+  }));
+}
+
+const providers = { greenhouse, ashby, lever, workday, smartrecruiters, oracle };
 
 async function ats(config) {
   const fn = providers[config.provider];

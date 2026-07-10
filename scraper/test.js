@@ -56,12 +56,45 @@ assert.strictEqual(wd.provider, 'workday');
 assert.strictEqual(wd.tenant, 'nvidia');
 assert.strictEqual(wd.site, 'NVIDIAExternalCareerSite');
 assert.ok(detectFromUrl('https://www.linkedin.com/jobs').blocked, 'LinkedIn must be blocked');
-assert.ok(detectFromUrl('https://careers.microsoft.com/us/en').blocked, 'Microsoft must be blocked');
+assert.ok(detectFromUrl('https://www.tesla.com/careers/search').blocked, 'Tesla must be blocked (Akamai)');
+assert.ok(detectFromUrl('https://www.citadel.com/careers').blocked, 'Citadel must be blocked (Cloudflare)');
 assert.strictEqual(detectFromUrl('https://example.com/careers'), null, 'unknown site → null');
+// Eightfold PCSX sites (Microsoft, Qualcomm) — scraped via headless Chrome
+const ms = detectFromUrl('https://apply.careers.microsoft.com/careers/job/123').config;
+assert.strictEqual(ms.source, 'pcsx');
+assert.strictEqual(ms.company, 'Microsoft');
+assert.strictEqual(detectFromUrl('https://careers.qualcomm.com/careers').config.source, 'pcsx');
+// Oracle Recruiting Cloud — site number parsed from candidate URL
+const ora = detectFromUrl('https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210755745').config;
+assert.strictEqual(ora.provider, 'oracle');
+assert.strictEqual(ora.site, 'CX_1001');
+assert.strictEqual(detectFromUrl('https://www.ibm.com/careers/search').config.source, 'ibm');
 // Company label extraction (feeds the URL-that-isn't-a-known-ATS probe fallback)
 assert.strictEqual(companyFromHost('www.hostinger.com'), 'hostinger');
 assert.strictEqual(companyFromHost('careers.google.com'), 'google');
 assert.strictEqual(companyFromHost('jobs.example.co.uk'), 'example');
+
+// PCSX card parse (Microsoft/Qualcomm DOM shape)
+const { parsePcsx } = require('./sources/pcsx');
+const pcsxHtml = `<div data-test-id="job-listing"><a aria-label="View job: Software Engineer II" href="/careers/job/123">
+<div class="title-1aNJK">Software Engineer II</div><div class="fieldValue-3kEar">Redmond, WA</div>
+<div class="subData-13Lm1">Posted a month ago</div></a></div>`;
+const pcsxJobs = parsePcsx(pcsxHtml, 'https://apply.careers.microsoft.com');
+assert.strictEqual(pcsxJobs.length, 1);
+assert.strictEqual(pcsxJobs[0].title, 'Software Engineer II');
+assert.strictEqual(pcsxJobs[0].url, 'https://apply.careers.microsoft.com/careers/job/123');
+assert.strictEqual(pcsxJobs[0].location, 'Redmond, WA');
+assert.strictEqual(pcsxJobs[0].posted_human, 'a month ago');
+
+// Radancy anchor parse — location inside the anchor (Intuit) and after it (Barclays)
+const { parseRadancy } = require('./sources/radancy');
+const radIn = parseRadancy('<a href="/job/mtv/swe/1/2"><h2>Staff Engineer</h2><span class="job-location">Mountain View</span></a>', 'https://jobs.intuit.com');
+assert.strictEqual(radIn[0].title, 'Staff Engineer');
+assert.strictEqual(radIn[0].location, 'Mountain View');
+const radAfter = parseRadancy('<a href="/job/ny/net-eng/3/4"><strong>Network Engineer</strong></a>\n<p class="job-location">Whippany (United States)</p>', 'https://search.jobs.barclays');
+assert.strictEqual(radAfter[0].title, 'Network Engineer');
+assert.strictEqual(radAfter[0].location, 'Whippany (United States)');
+assert.strictEqual(parseRadancy('<a href="/job/a/b/1/2"><h2>X</h2></a><a href="/job/a/b/1/2"><h2>X</h2></a>', 'x').length, 1, 'duplicate job urls collapse');
 
 // Seniority preferences: classify + hard filter
 const { seniorityLevel, passesSeniority } = require('./prefs');

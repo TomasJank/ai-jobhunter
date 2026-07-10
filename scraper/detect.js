@@ -10,9 +10,19 @@ const BLOCKED = [
   { host: 'ziprecruiter.', reason: 'ZipRecruiter is anti-bot protected — available via the JobSpy source instead.' },
   { host: 'metacareers.com', reason: 'Meta careers needs session tokens + a headless browser babysitting the login. Not free-tier friendly.' },
   { host: 'facebook.com', reason: 'Meta/Facebook careers needs session tokens + anti-bot handling. Not free-tier friendly.' },
-  { host: 'careers.microsoft.com', reason: 'Microsoft careers mints client-side auth tokens that require a headless browser. Not free-tier friendly.' },
-  { host: 'microsoft.com/en-us/careers', reason: 'Microsoft careers requires client-minted tokens + a headless browser. Not free-tier friendly.' },
+  { host: 'tesla.com', reason: 'Tesla careers sits behind Akamai and blocks even headless Chrome. Not free-tier friendly.' },
+  { host: 'citadel.com', reason: 'Citadel careers is behind a Cloudflare challenge. Not free-tier friendly.' },
+  { host: 'deshaw.com', reason: 'D.E. Shaw hosts a custom careers site with no public job API.' },
+  { host: 'lifeattiktok.com', reason: 'TikTok careers requires signed API requests. Not free-tier friendly.' },
+  { host: 'group.bnpparibas', reason: 'BNP Paribas careers blocks non-browser traffic (403). Not free-tier friendly.' },
 ];
+
+// Eightfold PCSX career sites — the JSON API is gated, but headless Chrome renders them.
+const PCSX_HOSTS = {
+  'apply.careers.microsoft.com': 'Microsoft',
+  'jobs.careers.microsoft.com': 'Microsoft',
+  'careers.qualcomm.com': 'Qualcomm',
+};
 
 const slugify = s => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -53,6 +63,13 @@ function detectFromUrl(raw) {
     const site = parts.find(p => !/^[a-z]{2}-[a-z]{2}$/i.test(p) && p !== 'job' && p !== 'jobs') || parts[0];
     return { config: { source: 'ats', provider: 'workday', host, tenant, site } };
   }
+  if (PCSX_HOSTS[host]) return { config: { source: 'pcsx', base: `https://${host}`, company: PCSX_HOSTS[host] } };
+  if (/\.fa\.(ocs\.)?oraclecloud\.com$/.test(host)) {
+    // Oracle Recruiting Cloud candidate URLs carry the site number: .../sites/CX_1001/...
+    const site = (u.pathname.match(/\/sites\/(CX_\d+)/) || [])[1] || 'CX_1';
+    return { config: { source: 'ats', provider: 'oracle', host, site } };
+  }
+  if (host === 'www.ibm.com' && u.pathname.includes('careers')) return { config: { source: 'ibm' } };
   if (host.includes('amazon.jobs')) return { config: { source: 'amazon' } };
   if (host.includes('jobs.apple.com')) return { config: { source: 'apple' } };
   if (host.includes('google.com') && u.pathname.includes('careers')) return { config: { source: 'google' } };
@@ -102,7 +119,7 @@ async function detect(input) {
     const company = companyFromHost(host);
     const probed = company ? await probeCompany(company) : null;
     if (probed) return probed;
-    return { unknown: true, reason: `Couldn't identify a supported job platform at "${trimmed}". Supported: Greenhouse, Lever, Ashby, SmartRecruiters, Workday, Amazon, Apple, Google, Eightfold.` };
+    return { unknown: true, reason: `Couldn't identify a supported job platform at "${trimmed}". Supported: Greenhouse, Lever, Ashby, SmartRecruiters, Workday, Oracle Cloud, Amazon, Apple, Google, Microsoft, IBM, Eightfold.` };
   }
   const probed = await probeCompany(trimmed);        // treat as a company name
   if (probed) return probed;

@@ -19,6 +19,9 @@ const SOURCES = {
   apple: require('./sources/apple'),
   google: require('./sources/google'),
   jobspy: require('./sources/jobspy'),
+  pcsx: require('./sources/pcsx'),
+  radancy: require('./sources/radancy'),
+  ibm: require('./sources/ibm'),
 };
 
 // ponytail: cap per source to bound runtime + LLM cost. Raise JH_PER_CONFIG_CAP if you want more.
@@ -34,6 +37,8 @@ function sourceUrl(c) {
   if (c.source === 'apple') return 'https://jobs.apple.com';
   if (c.source === 'google') return 'https://www.google.com/about/careers';
   if (c.source === 'jobspy') return `jobspy:${c.site || 'indeed'}`;
+  if (c.source === 'pcsx' || c.source === 'radancy') return c.base || '';
+  if (c.source === 'ibm') return 'https://www.ibm.com/careers';
   return '';
 }
 

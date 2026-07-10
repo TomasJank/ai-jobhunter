@@ -159,7 +159,7 @@ const Onboarding = ({ profile, onDone }) => {
             </div>
           )}
           <div style={{ marginTop: 8, fontSize: 11, color: 'var(--jh-fg-dim)' }}>
-            ⚠ LinkedIn, Glassdoor, Meta, Microsoft can't be scraped (login walls / anti-bot).
+            ⚠ LinkedIn, Glassdoor, Meta, Tesla, Citadel can't be scraped (login walls / anti-bot).
           </div>
         </div>
 
