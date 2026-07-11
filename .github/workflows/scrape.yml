@@ -42,6 +42,18 @@ jobs:
             echo "no JH_SOURCES_B64 secret — using sources.default.json"
           fi
 
+      - name: Restore personal résumés (optional)
+        working-directory: scraper
+        env:
+          JH_RESUMES_B64: ${{ secrets.JH_RESUMES_B64 }}   # base64 of: tar -czC scraper resumes
+        run: |
+          if [ -n "$JH_RESUMES_B64" ]; then
+            echo "$JH_RESUMES_B64" | base64 -d | tar -xz
+            echo "résumés restored: $(ls resumes | tr '\n' ' ')"
+          else
+            echo "no JH_RESUMES_B64 secret — scrape will skip unless resumes/ exists"
+          fi
+
       - name: Run scraper
         working-directory: scraper
         env:

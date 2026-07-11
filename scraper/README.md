@@ -84,8 +84,17 @@ are broad feeds — expect some off-topic rows; the LLM scoring layer ranks thos
 ## Résumés — `resumes/`
 
 One `.md`/`.txt` file per résumé; the filename (minus extension) is its id
-(`rsm_se.md` → `rsm_se`). The first line is the display name. Replace the sample with
-your own; add more files for multi-résumé ranking.
+(`rsm_se.md` → `rsm_se`). The first line is the display name. Add more files for
+multi-résumé ranking. The whole folder is **gitignored** — résumés are personal and
+never belong in the repo. For the daily cloud run to score against them, store them
+as a repo secret:
+
+```bash
+tar -czC scraper resumes | base64 | gh secret set JH_RESUMES_B64
+```
+
+Without the secret, the cloud run skips scraping (no résumé, no scrape) — local
+runs still work.
 
 ## LLM scoring
 

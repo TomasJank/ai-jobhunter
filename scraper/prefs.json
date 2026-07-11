@@ -1,21 +1,14 @@
 {
   "locations": [
-    "Remote",
-    "Lithuania",
-    "EU"
+    "United States"
   ],
   "work_modes": [
     "remote",
-    "hybrid"
+    "hybrid",
+    "onsite"
   ],
   "seniority": [
-    "intern",
-    "junior",
-    "mid",
-    "senior",
-    "staff",
-    "lead",
-    "principal"
+    "intern"
   ],
   "notify_min_score": 6,
   "telegram_enabled": true

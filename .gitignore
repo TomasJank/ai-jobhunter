@@ -4,6 +4,7 @@ node_modules/
 .venv/
 scraper/deploy/logs/
 scraper/sources.json
+scraper/resumes/
 scraper/statuses.json
 scraper/viewed.json
 scraper/profile.json
