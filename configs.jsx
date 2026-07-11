@@ -32,6 +32,9 @@ const Configs = ({ configs: fallback }) => {
   const [input, setInput] = React.useState('');
   const [detecting, setDetecting] = React.useState(false);
   const [notice, setNotice] = React.useState(null);  // { kind: 'blocked'|'unknown'|'ok', text }
+  // Locations are edited as raw text and parsed on blur — parsing per keystroke
+  // ate spaces/commas mid-word ("United States" was untypeable). null = not editing.
+  const [locText, setLocText] = React.useState(null);
   const [saving, setSaving] = React.useState(false);
   const [run, setRun] = React.useState({ running: false });
 
@@ -204,9 +207,13 @@ const Configs = ({ configs: fallback }) => {
               <div className="form-row">
                 <label>Preferred locations</label>
                 <input
-                  value={(prefs.locations || []).join(', ')}
-                  onChange={e => setPrefs({ ...prefs, locations: e.target.value.split(',').map(s => s.trim()).filter(Boolean) })}
-                  onBlur={() => savePrefs(prefs)}
+                  value={locText != null ? locText : (prefs.locations || []).join(', ')}
+                  onChange={e => setLocText(e.target.value)}
+                  onBlur={() => {
+                    if (locText == null) return;
+                    savePrefs({ ...prefs, locations: locText.split(',').map(s => s.trim()).filter(Boolean) });
+                    setLocText(null);
+                  }}
                   placeholder="Remote, Lithuania, EU"
                 />
                 <span className="help">Comma-separated. Used to rank matches, not to hard-filter.</span>
