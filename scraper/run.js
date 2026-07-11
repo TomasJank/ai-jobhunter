@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 // Load scraper/.env if present (native Node — no dotenv dep). Env vars / CI secrets still win.
 try { process.loadEnvFile(path.join(__dirname, '.env')); } catch { /* no .env file — fine */ }
-const { matchesKeywords, decodeEntities } = require('./lib');
+const { matchesKeywords, decodeEntities, loadSources } = require('./lib');
 const { scoreJobs, MODEL, loadResumes } = require('./score');
 const { notifyTelegram, bestScore } = require('./notify');
 const { loadPrefs, passesSeniority, prefsPromptText } = require('./prefs');
@@ -47,7 +47,7 @@ async function run() {
     console.log('No résumé found in scraper/resumes/ — upload one first. Skipping scrape.');
     return;
   }
-  const configs = JSON.parse(fs.readFileSync(path.join(__dirname, 'sources.json'), 'utf8'));
+  const configs = loadSources(__dirname);
   const prefs = loadPrefs();
   const found = {};
   const runResults = [];   // per-source outcome for the Scans page

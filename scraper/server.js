@@ -67,7 +67,9 @@ async function triggerCloud() {
 async function api(req, res, url) {
   if (req.method === 'OPTIONS') return send(res, 204, {});
 
-  if (url.pathname === '/api/sources' && req.method === 'GET') return send(res, 200, readJSON(SOURCES, []));
+  // Reads fall back to sources.default.json on a fresh checkout; the first save
+  // below materializes the personal (gitignored) sources.json.
+  if (url.pathname === '/api/sources' && req.method === 'GET') return send(res, 200, require('./lib').loadSources(__dirname));
   if (url.pathname === '/api/sources' && req.method === 'POST') {
     const list = await body(req);
     if (!Array.isArray(list)) return send(res, 400, { error: 'expected an array' });

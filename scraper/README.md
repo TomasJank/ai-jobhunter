@@ -42,6 +42,15 @@ but the config page is read-only unless the control panel is running.
 
 ## Sources — `sources.json`
 
+Your source list lives in `sources.json` — **gitignored, personal**. A fresh checkout
+starts from the shipped `sources.default.json`; the first save from the control panel
+(or copying it by hand) materializes your own `sources.json`. To make the daily cloud
+run use your personal list, store it as a repo secret:
+
+```bash
+base64 -i sources.json | gh secret set JH_SOURCES_B64
+```
+
 Each entry is a scraper config. `active: false` skips it. Supported `source` values:
 
 | source           | needs                     | notes                                   |

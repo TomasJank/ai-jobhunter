@@ -3,6 +3,7 @@ node_modules/
 .DS_Store
 .venv/
 scraper/deploy/logs/
+scraper/sources.json
 scraper/statuses.json
 scraper/viewed.json
 scraper/profile.json

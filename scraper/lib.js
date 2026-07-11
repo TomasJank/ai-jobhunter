@@ -112,4 +112,15 @@ function matchesKeywords(job, keywords) {
   return keywords.some(k => new RegExp(`\\b${String(k).toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(hay));
 }
 
-module.exports = { UA, fetchText, fetchJSON, postJSON, chromeFetch, stripTags, decodeEntities, mdToHtml, relTime, hashId, matchesKeywords };
+// Source configs: the user's sources.json (gitignored — personal) wins; fresh
+// checkouts fall back to the shipped sources.default.json. First save from the
+// UI materializes sources.json.
+function loadSources(dir) {
+  const fs = require('fs'), path = require('path');
+  for (const f of ['sources.json', 'sources.default.json']) {
+    try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch { /* next */ }
+  }
+  return [];
+}
+
+module.exports = { UA, fetchText, fetchJSON, postJSON, chromeFetch, stripTags, decodeEntities, mdToHtml, relTime, hashId, matchesKeywords, loadSources };

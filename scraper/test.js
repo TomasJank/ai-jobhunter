@@ -96,6 +96,17 @@ assert.strictEqual(radAfter[0].title, 'Network Engineer');
 assert.strictEqual(radAfter[0].location, 'Whippany (United States)');
 assert.strictEqual(parseRadancy('<a href="/job/a/b/1/2"><h2>X</h2></a><a href="/job/a/b/1/2"><h2>X</h2></a>', 'x').length, 1, 'duplicate job urls collapse');
 
+// loadSources: personal sources.json wins; fresh checkout falls back to defaults
+const { loadSources } = require('./lib');
+const os = require('os'), fsT = require('fs'), pathT = require('path');
+const tmp = fsT.mkdtempSync(pathT.join(os.tmpdir(), 'jh-src-'));
+fsT.writeFileSync(pathT.join(tmp, 'sources.default.json'), '[{"id":"d1"}]');
+assert.strictEqual(loadSources(tmp)[0].id, 'd1', 'falls back to defaults');
+fsT.writeFileSync(pathT.join(tmp, 'sources.json'), '[{"id":"p1"},{"id":"p2"}]');
+assert.strictEqual(loadSources(tmp).length, 2, 'personal file wins');
+assert.strictEqual(loadSources(tmp)[0].id, 'p1');
+assert.deepStrictEqual(loadSources(fsT.mkdtempSync(pathT.join(os.tmpdir(), 'jh-none-'))), [], 'neither file -> []');
+
 // Seniority preferences: classify + hard filter
 const { seniorityLevel, passesSeniority } = require('./prefs');
 assert.strictEqual(seniorityLevel('Senior Frontend Engineer'), 'senior');

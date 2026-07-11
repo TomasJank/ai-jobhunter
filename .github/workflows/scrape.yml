@@ -30,6 +30,18 @@ jobs:
           npm install
           pip install python-jobspy   # Indeed/Google-Jobs boards; Chrome is preinstalled on runners
 
+      - name: Restore personal sources.json (optional)
+        working-directory: scraper
+        env:
+          JH_SOURCES_B64: ${{ secrets.JH_SOURCES_B64 }}   # base64 of your gitignored sources.json
+        run: |
+          if [ -n "$JH_SOURCES_B64" ]; then
+            echo "$JH_SOURCES_B64" | base64 -d > sources.json
+            echo "personal sources.json restored ($(wc -c < sources.json) bytes)"
+          else
+            echo "no JH_SOURCES_B64 secret — using sources.default.json"
+          fi
+
       - name: Run scraper
         working-directory: scraper
         env:

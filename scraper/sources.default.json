@@ -1,0 +1,181 @@
+[
+  {
+    "id": "cfg_remoteok",
+    "name": "Remote OK — frontend",
+    "source": "remoteok",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "vue",
+      "typescript",
+      "javascript",
+      "ui"
+    ]
+  },
+  {
+    "id": "cfg_wwr_fe",
+    "name": "WeWorkRemotely — Front-End",
+    "source": "weworkremotely",
+    "category": "remote-front-end-programming-jobs",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "vue",
+      "angular",
+      "web",
+      "ui",
+      "ux",
+      "javascript",
+      "typescript"
+    ]
+  },
+  {
+    "id": "cfg_hn_hiring",
+    "name": "HN — Who is hiring",
+    "source": "hackernews",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "typescript"
+    ]
+  },
+  {
+    "id": "cfg_gh_stripe",
+    "name": "Greenhouse — Stripe",
+    "source": "ats",
+    "provider": "greenhouse",
+    "slug": "stripe",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "ui",
+      "web"
+    ]
+  },
+  {
+    "id": "cfg_ashby_ramp",
+    "name": "Ashby — Ramp",
+    "source": "ats",
+    "provider": "ashby",
+    "slug": "ramp",
+    "active": false,
+    "keywords": [
+      "front",
+      "react",
+      "ui"
+    ]
+  },
+  {
+    "id": "cfg_amazon",
+    "name": "Amazon — frontend",
+    "source": "amazon",
+    "query": "front end engineer",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "ui",
+      "web",
+      "javascript",
+      "typescript"
+    ]
+  },
+  {
+    "id": "cfg_wd_nvidia",
+    "name": "Workday — Nvidia",
+    "source": "ats",
+    "provider": "workday",
+    "host": "nvidia.wd5.myworkdayjobs.com",
+    "tenant": "nvidia",
+    "site": "NVIDIAExternalCareerSite",
+    "query": "frontend",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "ui",
+      "web"
+    ]
+  },
+  {
+    "id": "cfg_sr_visa",
+    "name": "SmartRecruiters — Visa",
+    "source": "ats",
+    "provider": "smartrecruiters",
+    "slug": "Visa",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "ui",
+      "web"
+    ]
+  },
+  {
+    "id": "cfg_netflix",
+    "name": "Netflix (Eightfold)",
+    "source": "eightfold",
+    "base": "https://explore.jobs.netflix.net",
+    "domain": "netflix.com",
+    "company": "Netflix",
+    "query": "frontend engineer",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "ui",
+      "web",
+      "full stack",
+      "fullstack"
+    ]
+  },
+  {
+    "id": "cfg_apple",
+    "name": "Apple — frontend",
+    "source": "apple",
+    "query": "frontend engineer",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "ui",
+      "web",
+      "software"
+    ]
+  },
+  {
+    "id": "cfg_google",
+    "name": "Google — frontend",
+    "source": "google",
+    "query": "frontend",
+    "active": true,
+    "keywords": [
+      "front",
+      "react",
+      "ui",
+      "web"
+    ]
+  },
+  {
+    "id": "cfg_indeed",
+    "name": "Indeed (JobSpy) — remote frontend",
+    "source": "jobspy",
+    "site": "indeed",
+    "query": "frontend developer remote",
+    "limit": 15,
+    "active": false,
+    "keywords": [
+      "front",
+      "react",
+      "vue",
+      "typescript",
+      "javascript",
+      "ui",
+      "web"
+    ]
+  }
+]
