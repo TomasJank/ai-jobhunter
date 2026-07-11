@@ -50,7 +50,12 @@ const Resumes = ({ resumes, jobs }) => {
   };
 
   const deleteResume = async (id) => {
-    try { await fetch('/api/resume?id=' + encodeURIComponent(id), { method: 'DELETE' }); } catch { /* offline */ }
+    try {
+      const d = await fetch('/api/resume?id=' + encodeURIComponent(id), { method: 'DELETE' }).then(r => r.json());
+      setUploadMsg(d.ok ? { ok: true, text: `Deleted "${id}".` } : { ok: false, text: d.error || 'Delete failed.' });
+    } catch {
+      setUploadMsg({ ok: false, text: 'Deleting needs the control panel running (localhost:8090).' });
+    }
     fetch('/api/resumes').then(r => r.json()).then(setLive).catch(() => {});
   };
 
@@ -62,10 +67,11 @@ const Resumes = ({ resumes, jobs }) => {
     return { avg, greatMatches, total: matchScores.length };
   };
 
-  // Prefer the live list from the server (shows newly-uploaded résumés immediately);
-  // fall back to the baked-in dataset when the control panel isn't running.
+  // Prefer the live list from the server (shows uploads/deletes immediately); fall back
+  // to the baked-in dataset only when the control panel isn't running (live === null).
+  // An empty live list is real — falling back would resurrect deleted résumés as ghosts.
   const activeId = (resumes.find(r => r.active) || resumes[0] || {}).id;
-  const items = (live && live.length ? live : resumes).map(r => ({
+  const items = (live || resumes).map(r => ({
     tokens: 0, last_updated_human: 'recently', ...r,
     active: r.active != null ? r.active : r.id === activeId,
   }));

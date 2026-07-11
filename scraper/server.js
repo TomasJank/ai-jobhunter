@@ -159,10 +159,12 @@ async function api(req, res, url) {
     } catch (e) { return send(res, 200, { error: e.message }); }
   }
   if (url.pathname === '/api/resume' && req.method === 'DELETE') {
-    const id = safeId(url.searchParams.get('id'));
+    // Delete by the exact id GET /api/resumes listed (filename minus extension) —
+    // running it through safeId() would mangle spaces/case and miss the file.
+    const id = path.basename(String(url.searchParams.get('id') || ''));   // basename blocks ../ traversal
     let removed = false;
-    for (const ext of ['md', 'txt']) { const p = path.join(RESUMES, id + '.' + ext); if (fs.existsSync(p)) { fs.unlinkSync(p); removed = true; } }
-    return send(res, 200, { ok: removed });
+    for (const ext of ['md', 'txt']) { const p = path.join(RESUMES, id + '.' + ext); if (id && fs.existsSync(p)) { fs.unlinkSync(p); removed = true; } }
+    return send(res, 200, removed ? { ok: true } : { ok: false, error: `No résumé file named "${id}".` });
   }
 
   if (url.pathname === '/api/summarize' && req.method === 'POST') {
