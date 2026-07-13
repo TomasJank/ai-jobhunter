@@ -33,18 +33,21 @@ const idx = raw.indexOf(':');
 assert.strictEqual(raw.slice(0, idx).trim(), 'Acme Corp');
 assert.strictEqual(raw.slice(idx + 1).trim(), 'Senior Frontend Engineer');
 
-// Telegram message formatting: HTML-escaped, sorted by score, capped list
-const { formatMessage, bestScore, MAX_LISTED } = require('./notify');
+// Telegram message formatting: HTML-escaped, sorted by score, chunked at the 4096 limit
+const { formatMessages, bestScore, TG_LIMIT } = require('./notify');
 const mk = (title, score) => ({
   title, company: 'A&B <Co>', location: 'Kaunas', url: 'https://x/' + title,
   resume_scores: { r1: score }, best_resume_id: 'r1',
 });
-const msg = formatMessage([mk('low', 6.1), mk('high', 9.3)]);
+const [msg] = formatMessages([mk('low', 6.1), mk('high', 9.3)]);
 assert.ok(msg.includes('A&amp;B &lt;Co&gt;'), 'company must be HTML-escaped');
 assert.ok(msg.indexOf('high') < msg.indexOf('low'), 'higher score listed first');
 assert.ok(msg.includes('<b>9.3</b>'), 'score rendered');
-const many = Array.from({ length: MAX_LISTED + 3 }, (_, i) => mk('job' + i, 7));
-assert.ok(formatMessage(many).includes(`and 3 more`), 'overflow note when over cap');
+const many = Array.from({ length: 120 }, (_, i) => mk('a-fairly-long-job-title-to-fill-space ' + i, 7));
+const chunks = formatMessages(many);
+assert.ok(chunks.length > 1, 'long lists split into multiple messages');
+assert.ok(chunks.every(c => c.length <= TG_LIMIT), 'every chunk fits the Telegram limit');
+assert.strictEqual(chunks.join('\n\n').split('<b>7.0</b>').length - 1, 120, 'every job listed, none dropped');
 assert.strictEqual(bestScore({ resume_scores: {}, best_resume_id: 'x' }), 0);
 
 // Source detection: known platforms, Workday host parse, and blocked sites
