@@ -103,13 +103,20 @@ function hashId(str) {
   return 'job_' + h.toString(36);
 }
 
-// keep the job if any keyword matches the title or tags (word-start boundary), or if
-// no keywords given. We deliberately skip the description — it's too noisy: a plain
-// substring "ui" matches "b(ui)lding", "req(ui)rements", etc. Titles hold the role.
+// keep the job if any keyword matches the title or tags, or if no keywords given.
+// Whole-word by default ("intern" must NOT match "Internal Tools"); a trailing '*'
+// asks for a prefix match ("front*" matches "Frontend"). We deliberately skip the
+// description — it's too noisy: a plain substring "ui" matches "b(ui)lding", etc.
 function matchesKeywords(job, keywords) {
   if (!keywords || !keywords.length) return true;
   const hay = (job.title + ' ' + (job._tags || []).join(' ')).toLowerCase();
-  return keywords.some(k => new RegExp(`\\b${String(k).toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(hay));
+  return keywords.some(k => {
+    let kw = String(k).toLowerCase();
+    const prefix = kw.endsWith('*');
+    if (prefix) kw = kw.slice(0, -1);
+    const esc = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(`\\b${esc}${prefix ? '' : '\\b'}`).test(hay);
+  });
 }
 
 // Source configs: the user's sources.json (gitignored — personal) wins; fresh

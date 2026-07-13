@@ -78,8 +78,10 @@ installs it itself:
 python3 -m venv .venv && .venv/bin/pip install python-jobspy
 ```
 
-Optional `keywords` filter each config by title/tags (word-start match). RemoteOK/HN
-are broad feeds — expect some off-topic rows; the LLM scoring layer ranks those low.
+Optional `keywords` filter each config by title/tags — whole-word match by default
+(`intern` won't match "Internal"); end a keyword with `*` for a prefix match
+(`front*` matches "Frontend"). RemoteOK/HN are broad feeds — expect some off-topic
+rows; the LLM scoring layer ranks those low.
 
 ## Résumés — `resumes/`
 

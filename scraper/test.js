@@ -22,8 +22,14 @@ assert.strictEqual(relTime(''), '');
 assert.strictEqual(hashId('https://x/1'), hashId('https://x/1'));
 assert.notStrictEqual(hashId('a'), hashId('b'));
 
-// keyword filter
-assert.ok(matchesKeywords({ title: 'Senior Frontend Engineer', description: '' }, ['front']));
+// keyword filter: whole-word by default, trailing '*' = prefix match
+assert.ok(matchesKeywords({ title: 'Senior Frontend Engineer', description: '' }, ['front*']), 'front* matches Frontend');
+assert.ok(!matchesKeywords({ title: 'Senior Frontend Engineer', description: '' }, ['front']), 'front (whole word) must not match Frontend');
+assert.ok(matchesKeywords({ title: 'Software Engineer Intern', description: '' }, ['intern']));
+assert.ok(!matchesKeywords({ title: 'Fullstack Engineer, Internal Tools', description: '' }, ['intern']), 'intern must not match Internal');
+assert.ok(!matchesKeywords({ title: 'International Strategy Manager', description: '' }, ['intern', 'internship*']), 'intern must not match International');
+assert.ok(matchesKeywords({ title: 'Summer 2027 Internships - Data', description: '' }, ['internship*']), 'internship* matches Internships');
+assert.ok(matchesKeywords({ title: '2027 Summer Analyst Program', description: '' }, ['summer analyst']));
 assert.ok(!matchesKeywords({ title: 'Line Cook', description: 'kitchen' }, ['react']));
 assert.ok(matchesKeywords({ title: 'Anything', description: '' }, []));
 

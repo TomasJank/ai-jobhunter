@@ -1,11 +1,11 @@
 [
   {
     "id": "cfg_remoteok",
-    "name": "Remote OK — frontend",
+    "name": "Remote OK \u2014 frontend",
     "source": "remoteok",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "vue",
       "typescript",
@@ -15,12 +15,12 @@
   },
   {
     "id": "cfg_wwr_fe",
-    "name": "WeWorkRemotely — Front-End",
+    "name": "WeWorkRemotely \u2014 Front-End",
     "source": "weworkremotely",
     "category": "remote-front-end-programming-jobs",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "vue",
       "angular",
@@ -33,24 +33,24 @@
   },
   {
     "id": "cfg_hn_hiring",
-    "name": "HN — Who is hiring",
+    "name": "HN \u2014 Who is hiring",
     "source": "hackernews",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "typescript"
     ]
   },
   {
     "id": "cfg_gh_stripe",
-    "name": "Greenhouse — Stripe",
+    "name": "Greenhouse \u2014 Stripe",
     "source": "ats",
     "provider": "greenhouse",
     "slug": "stripe",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "ui",
       "web"
@@ -58,25 +58,25 @@
   },
   {
     "id": "cfg_ashby_ramp",
-    "name": "Ashby — Ramp",
+    "name": "Ashby \u2014 Ramp",
     "source": "ats",
     "provider": "ashby",
     "slug": "ramp",
     "active": false,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "ui"
     ]
   },
   {
     "id": "cfg_amazon",
-    "name": "Amazon — frontend",
+    "name": "Amazon \u2014 frontend",
     "source": "amazon",
     "query": "front end engineer",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "ui",
       "web",
@@ -86,7 +86,7 @@
   },
   {
     "id": "cfg_wd_nvidia",
-    "name": "Workday — Nvidia",
+    "name": "Workday \u2014 Nvidia",
     "source": "ats",
     "provider": "workday",
     "host": "nvidia.wd5.myworkdayjobs.com",
@@ -95,7 +95,7 @@
     "query": "frontend",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "ui",
       "web"
@@ -103,13 +103,13 @@
   },
   {
     "id": "cfg_sr_visa",
-    "name": "SmartRecruiters — Visa",
+    "name": "SmartRecruiters \u2014 Visa",
     "source": "ats",
     "provider": "smartrecruiters",
     "slug": "Visa",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "ui",
       "web"
@@ -125,7 +125,7 @@
     "query": "frontend engineer",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "ui",
       "web",
@@ -135,12 +135,12 @@
   },
   {
     "id": "cfg_apple",
-    "name": "Apple — frontend",
+    "name": "Apple \u2014 frontend",
     "source": "apple",
     "query": "frontend engineer",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "ui",
       "web",
@@ -149,12 +149,12 @@
   },
   {
     "id": "cfg_google",
-    "name": "Google — frontend",
+    "name": "Google \u2014 frontend",
     "source": "google",
     "query": "frontend",
     "active": true,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "ui",
       "web"
@@ -162,14 +162,14 @@
   },
   {
     "id": "cfg_indeed",
-    "name": "Indeed (JobSpy) — remote frontend",
+    "name": "Indeed (JobSpy) \u2014 remote frontend",
     "source": "jobspy",
     "site": "indeed",
     "query": "frontend developer remote",
     "limit": 15,
     "active": false,
     "keywords": [
-      "front",
+      "front*",
       "react",
       "vue",
       "typescript",

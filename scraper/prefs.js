@@ -44,7 +44,10 @@ function passesSeniority(job, prefs) {
 function prefsPromptText(prefs) {
   const loc = prefs.locations && prefs.locations.length ? prefs.locations.join(', ') : 'any';
   const modes = prefs.work_modes && prefs.work_modes.length ? prefs.work_modes.join('/') : 'any';
-  return `Candidate preferences — preferred locations: ${loc}; preferred work mode: ${modes}. ` +
+  const sen = prefs.seniority && prefs.seniority.length && prefs.seniority.length < SENIORITY_LEVELS.length
+    ? ` The candidate ONLY wants these seniority levels: ${prefs.seniority.join('/')} — a role clearly at another level (e.g. a regular full-time position when only "intern" is wanted) must score 4 or lower.`
+    : '';
+  return `Candidate preferences — preferred locations: ${loc}; preferred work mode: ${modes}.${sen} ` +
     `Lower the score (do NOT zero it) for jobs that clearly don't fit these, e.g. onsite-only in a far ` +
     `location when remote is preferred. A great role that's a mild geographic mismatch should still score well.`;
 }
