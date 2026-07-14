@@ -1,5 +1,184 @@
 [
   {
+    "at": "2026-07-14T07:56:09.552Z",
+    "sources": [
+      {
+        "name": "Remote OK — frontend",
+        "source": "remoteok",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "WeWorkRemotely — Front-End",
+        "source": "weworkremotely",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "HN — Who is hiring",
+        "source": "hackernews",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Greenhouse — Stripe",
+        "source": "ats",
+        "ok": true,
+        "count": 1
+      },
+      {
+        "name": "Amazon — frontend",
+        "source": "amazon",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — Nvidia",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "SmartRecruiters — Visa",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Netflix (Eightfold)",
+        "source": "eightfold",
+        "ok": true,
+        "count": 1
+      },
+      {
+        "name": "Apple — frontend",
+        "source": "apple",
+        "ok": true,
+        "count": 1
+      },
+      {
+        "name": "Google — frontend",
+        "source": "google",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Ashby — Notion",
+        "source": "ats",
+        "ok": true,
+        "count": 1
+      },
+      {
+        "name": "Greenhouse — Jump Trading",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Greenhouse — Tower Research Capital",
+        "source": "ats",
+        "ok": true,
+        "count": 5
+      },
+      {
+        "name": "Greenhouse — Point72",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Lever — Palantir",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Workday — Adobe",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Workday — T-Mobile",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Workday — Vanguard",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Workday — Capital One",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Workday — GE Vernova",
+        "source": "ats",
+        "ok": true,
+        "count": 3
+      },
+      {
+        "name": "Workday — Apollo",
+        "source": "ats",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Oracle — JPMorgan Chase",
+        "source": "ats",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "Oracle — Honeywell",
+        "source": "ats",
+        "ok": true,
+        "count": 1
+      },
+      {
+        "name": "Microsoft Careers",
+        "source": "pcsx",
+        "ok": true,
+        "count": 0
+      },
+      {
+        "name": "Qualcomm Careers",
+        "source": "pcsx",
+        "ok": true,
+        "count": 4
+      },
+      {
+        "name": "Intuit Careers",
+        "source": "radancy",
+        "ok": true,
+        "count": 6
+      },
+      {
+        "name": "Barclays Careers",
+        "source": "radancy",
+        "ok": true,
+        "count": 8
+      },
+      {
+        "name": "IBM Careers",
+        "source": "ibm",
+        "ok": true,
+        "count": 2
+      }
+    ],
+    "ok": 28,
+    "failed": 0,
+    "unique": 89,
+    "new": 10,
+    "scored": true,
+    "notified": 3
+  },
+  {
     "at": "2026-07-13T08:57:28.013Z",
     "sources": [
       {
