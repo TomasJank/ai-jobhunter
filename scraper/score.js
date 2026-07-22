@@ -48,8 +48,9 @@ function schemaFor(resumes) {
       },
       best_resume_id: { type: 'string', enum: resumes.map(r => r.id) },
       why: { type: 'array', items: { type: 'string' } },
+      location_match: { type: 'boolean' },
     },
-    required: ['scores', 'best_resume_id', 'why'],
+    required: ['scores', 'best_resume_id', 'why', 'location_match'],
     additionalProperties: false,
   };
 }
@@ -65,6 +66,9 @@ async function scoreJob(job, resumes, schema, prefsText) {
       'Score the fit both ways: penalize roles clearly below the candidate\'s seniority (e.g. intern/junior ' +
       'roles for a senior profile) as well as roles above or outside their experience. ' +
       (prefsText ? prefsText + ' ' : '') +
+      'Set "location_match" to true only if the job can plausibly be done from the candidate\'s preferred ' +
+      'locations — it is located there, or is explicitly remote and open to workers there. If unclear, or if ' +
+      'no preferred locations are stated, set true. ' +
       'In "why", give 2–3 short reasons for the best-matching résumé, and refer to each résumé by its ' +
       'quoted name (e.g. "AI / Frontend Developer") — never by its JSON key/id. Output only the requested JSON.',
     messages: [{ role: 'user', content: `RESUMES:\n${resumeBlock}\n\nJOB:\n${jobText}` }],
@@ -79,6 +83,7 @@ function neutral(job, resumes) {
     ...job,
     resume_scores: Object.fromEntries(resumes.map(r => [r.id, 0])),
     best_resume_id: resumes[0].id,
+    location_match: true,   // unscored jobs stay visible
     why: ['Not yet scored — set ANTHROPIC_API_KEY to enable AI matching.'],
   };
 }
@@ -102,7 +107,7 @@ async function scoreJobs(jobs, log = () => {}, prefsText = '') {
         log(`score failed for "${job.title}" (${e.message}) — retrying once`);
         r = await scoreJob(job, resumes, schema, prefsText);
       }
-      out.push({ ...job, resume_scores: r.scores, best_resume_id: r.best_resume_id, why: r.why || [] });
+      out.push({ ...job, resume_scores: r.scores, best_resume_id: r.best_resume_id, why: r.why || [], location_match: r.location_match !== false });
     } catch (e) {
       log(`score failed for "${job.title}": ${e.message}`);
       out.push(neutral(job, resumes));

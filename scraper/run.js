@@ -96,6 +96,7 @@ async function run() {
         // only reuse if the résumé set is unchanged, else scores would miss new résumés;
         // skip neutral placeholders written when a past run had no API credit
         if (String((j.why || [])[0] || '').startsWith('Not yet scored')) continue;
+        if (!('location_match' in j)) continue;   // scored under the old schema — rescore once
         if (j.resume_scores && Object.keys(j.resume_scores).sort().join(',') === resumeIds) prevScores[j.url || j.id] = j;
       }
     }
@@ -110,7 +111,7 @@ async function run() {
     const hit = scoredByKey.get(j.url || j.id);
     if (hit) return hit;
     const p = prevScores[j.url || j.id];
-    return { ...j, resume_scores: p.resume_scores, best_resume_id: p.best_resume_id, why: p.why };
+    return { ...j, resume_scores: p.resume_scores, best_resume_id: p.best_resume_id, why: p.why, location_match: p.location_match };
   });
 
   // Seen-state: only jobs never encountered before count as "new" for notifications.
@@ -125,7 +126,7 @@ async function run() {
 
   // Telegram: report fresh jobs scoring at or above the threshold. Quiet otherwise.
   const minScore = Number(process.env.JH_NOTIFY_MIN_SCORE || prefs.notify_min_score || 6);
-  const notable = scored ? fresh.filter(j => bestScore(j) >= minScore) : [];
+  const notable = scored ? fresh.filter(j => bestScore(j) >= minScore && j.location_match !== false) : [];
   if (!scored && fresh.length) console.log('  (scoring skipped — no Telegram report without scores)');
   let notified = false;
   if (prefs.telegram_enabled === false) {

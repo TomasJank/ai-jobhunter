@@ -10,7 +10,8 @@ function App() {
 
   const data = window.JH_DATA;
   const resumes = data.RESUMES_FULL || [];
-  const jobs = data.JOBS || [];
+  // Hard location filter: the scorer flags jobs outside preferred locations; hide them everywhere.
+  const jobs = (data.JOBS || []).filter(j => j.location_match !== false);
 
   if (profile === undefined) return null;   // brief blank while /api/profile resolves
 
