@@ -73,7 +73,15 @@ async function scoreJob(job, resumes, schema, prefsText) {
       'this flag is about the job\'s geography only. If unclear, or no preferred locations are stated, set true. ' +
       'In "why", give 2–3 short reasons for the best-matching résumé, and refer to each résumé by its ' +
       'quoted name (e.g. "AI / Frontend Developer") — never by its JSON key/id. Output only the requested JSON.',
-    messages: [{ role: 'user', content: `RESUMES:\n${resumeBlock}\n\nJOB:\n${jobText}` }],
+    // Résumés are identical across all calls in a run — cache that prefix (system rides along).
+    // Prefix is ~4.4K tokens, just over Haiku's 4096 minimum; sequential calls keep the 5-min TTL warm.
+    messages: [{
+      role: 'user',
+      content: [
+        { type: 'text', text: `RESUMES:\n${resumeBlock}`, cache_control: { type: 'ephemeral' } },
+        { type: 'text', text: `\n\nJOB:\n${jobText}` },
+      ],
+    }],
     output_config: { format: { type: 'json_schema', schema } },
   });
   const text = res.content.find(b => b.type === 'text')?.text || '{}';
