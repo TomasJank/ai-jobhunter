@@ -37,7 +37,7 @@ const SORTS = [
   { key: 'recent', label: 'Most recent' },
 ];
 
-const FilterStrip = ({ filter, setFilter, sort, setSort, query, setQuery, counts }) => (
+const FilterStrip = ({ filter, setFilter, sort, setSort, maxAge, setMaxAge, query, setQuery, counts }) => (
   <div className="filter-strip">
     {FILTERS.map(f => (
       <button
@@ -60,6 +60,17 @@ const FilterStrip = ({ filter, setFilter, sort, setSort, query, setQuery, counts
         {s.label}
       </button>
     ))}
+    <select
+      className={`filter-chip ${maxAge ? 'active' : ''}`}
+      style={{ appearance: 'none', cursor: 'pointer' }}
+      value={maxAge}
+      onChange={(e) => setMaxAge(Number(e.target.value))}
+    >
+      <option value={0}>Any age</option>
+      <option value={7}>Last 7 days</option>
+      <option value={30}>Last 30 days</option>
+      <option value={90}>Last 90 days</option>
+    </select>
     <div className="search-field">
       <Icon name="search" size={14} color="var(--jh-fg-dim)" />
       <input
@@ -287,6 +298,7 @@ const Detail = ({ job, resumes, onStatus }) => {
 const Dashboard = ({ resumes, jobs }) => {
   const [filter, setFilter] = useStateD('all');
   const [sort, setSort] = useStateD('best');
+  const [maxAge, setMaxAge] = useStateD(0);   // days; 0 = any age
   const [query, setQuery] = useStateD('');
   const [selectedId, setSelectedId] = useStateD(jobs[0]?.id);
   const [scanning, setScanning] = useStateD(false);
@@ -334,11 +346,14 @@ const Dashboard = ({ resumes, jobs }) => {
       fetch('/api/view', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: job.url }) }).catch(() => {});
     }
   };
-  const isNew = j => (j.status || 'new') === 'new' && !viewedByUrl[j.url];
+  const ageDays = j => (Date.now() - new Date(j.posted_at)) / 864e5;
+  // "New" expires a week after the posting date, even if never opened.
+  const isNew = j => (j.status || 'new') === 'new' && !viewedByUrl[j.url] && ageDays(j) < 7;
 
   const filtered = useMemoD(() => {
     let list = jobs.map(withStatus);
     if (filter !== 'all') list = list.filter(j => filter === 'new' ? isNew(j) : j.status === filter);
+    if (maxAge) list = list.filter(j => ageDays(j) <= maxAge);
     if (query.trim()) {
       const q = query.toLowerCase();
       list = list.filter(j =>
@@ -354,7 +369,7 @@ const Dashboard = ({ resumes, jobs }) => {
       list.sort((a, b) => new Date(b.posted_at) - new Date(a.posted_at));
     }
     return list;
-  }, [jobs, statusByUrl, viewedByUrl, filter, query, sort]);
+  }, [jobs, statusByUrl, viewedByUrl, filter, query, sort, maxAge]);
 
   const selectedJob = filtered.find(j => j.id === selectedId) || filtered[0];
 
@@ -387,6 +402,7 @@ const Dashboard = ({ resumes, jobs }) => {
       <FilterStrip
         filter={filter} setFilter={setFilter}
         sort={sort} setSort={setSort}
+        maxAge={maxAge} setMaxAge={setMaxAge}
         query={query} setQuery={setQuery}
         counts={counts}
       />
@@ -404,8 +420,8 @@ const Dashboard = ({ resumes, jobs }) => {
                     : 'Try a different filter, or hit Run now to scrape fresh jobs.'}
                 </div>
               </div>
-              {(query || filter !== 'all') && (
-                <button className="btn btn-soft" onClick={() => { setQuery(''); setFilter('all'); }}>
+              {(query || filter !== 'all' || maxAge !== 0) && (
+                <button className="btn btn-soft" onClick={() => { setQuery(''); setFilter('all'); setMaxAge(0); }}>
                   Reset filters
                 </button>
               )}
