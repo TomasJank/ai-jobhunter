@@ -54,16 +54,40 @@ const FOREIGN_RE = new RegExp('\\b(' + [
   'bengaluru', 'bangalore', 'shenzhen', 'beijing', 'shanghai', 'hyderabad', 'mumbai', 'pune',
   'chennai', 'gurgaon', 'gurugram', 'noida', 'tokyo', 'osaka', 'seoul', 'taipei', 'warsaw',
   'krakow', 'prague', 'bucharest', 'amsterdam', 'tel aviv', 'sydney', 'melbourne', 'toronto',
-  'vancouver', 'montreal', 'zurich', 'munich', 'luxembourg', 'london',
+  'vancouver', 'montreal', 'zurich', 'munich', 'luxembourg', 'london', 'hong kong',
 ].join('|') + ')\\b', 'i');
 
+const wantsUS = prefs => !!(prefs.locations || []).join(' ').match(/united states|usa|\bu\.?s\.?\b|america/i);
+
 function passesLocation(job, prefs) {
-  const wantsUS = (prefs.locations || []).join(' ').match(/united states|usa|\bu\.?s\.?\b|america/i);
-  if (!wantsUS) return true;
+  if (!wantsUS(prefs)) return true;
   const loc = job.location || '';
   const iso = loc.match(/,\s*([A-Z]{3})\b/);          // Amazon-style "City, CC" / "City, Region, DEU"
   if (iso && iso[1] !== 'USA') return false;
   return !FOREIGN_RE.test(loc);
+}
+
+// Unmistakably-US detector. The LLM location_match flag sometimes leaks candidate-residence
+// reasoning ("candidate is in Lithuania → can't work onsite in Seattle"), so run.js forces
+// the flag true for these; the LLM only decides genuinely ambiguous locations.
+const US_STATE_RE = /(^|,)\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)\b/;
+const US_RE = new RegExp('\\b(' + [
+  'usa', 'u\\.s\\.', 'united states', 'washington,? d\\.?c\\.?',
+  // full state names commonly used without "USA"
+  'alabama', 'alaska', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'florida',
+  'georgia', 'hawaii', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maryland',
+  'massachusetts', 'michigan', 'minnesota', 'missouri', 'nebraska', 'nevada', 'new hampshire',
+  'new jersey', 'new mexico', 'new york', 'north carolina', 'ohio', 'oklahoma', 'oregon',
+  'pennsylvania', 'tennessee', 'texas', 'utah', 'virginia', 'washington', 'wisconsin', 'wyoming',
+  // major US tech-hub cities commonly listed bare
+  'chicago', 'seattle', 'boston', 'austin', 'denver', 'atlanta', 'honolulu', 'houston', 'dallas',
+  'miami', 'philadelphia', 'pittsburgh', 'san francisco', 'san jose', 'san diego', 'los angeles',
+  'palo alto', 'mountain view', 'sunnyvale', 'santa clara', 'menlo park', 'cupertino', 'redmond',
+  'bellevue', 'nashville', 'charlotte', 'columbus', 'phoenix', 'salt lake city',
+].join('|') + ')\\b', 'i');
+
+function clearlyUS(loc = '') {
+  return /^US\b/.test(loc) || US_RE.test(loc) || US_STATE_RE.test(loc);
 }
 
 // Soft signal fed into the scoring prompt so Claude down-ranks (not drops) mismatches.
@@ -78,4 +102,4 @@ function prefsPromptText(prefs) {
     `location when remote is preferred. A great role that's a mild geographic mismatch should still score well.`;
 }
 
-module.exports = { loadPrefs, seniorityLevel, passesSeniority, passesLocation, prefsPromptText, DEFAULTS, SENIORITY_LEVELS, WORK_MODES };
+module.exports = { loadPrefs, seniorityLevel, passesSeniority, passesLocation, wantsUS, clearlyUS, prefsPromptText, DEFAULTS, SENIORITY_LEVELS, WORK_MODES };

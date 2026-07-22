@@ -7,7 +7,7 @@ try { process.loadEnvFile(path.join(__dirname, '.env')); } catch { /* no .env fi
 const { matchesKeywords, decodeEntities, loadSources } = require('./lib');
 const { scoreJobs, MODEL, loadResumes, SCORED_V } = require('./score');
 const { notifyTelegram, bestScore } = require('./notify');
-const { loadPrefs, passesSeniority, passesLocation, prefsPromptText } = require('./prefs');
+const { loadPrefs, passesSeniority, passesLocation, wantsUS, clearlyUS, prefsPromptText } = require('./prefs');
 
 const SOURCES = {
   remoteok: require('./sources/remoteok'),
@@ -114,6 +114,8 @@ async function run() {
     const p = prevScores[j.url || j.id];
     return { ...j, resume_scores: p.resume_scores, best_resume_id: p.best_resume_id, why: p.why, location_match: p.location_match, scored_v: p.scored_v };
   });
+  // Unmistakably-US locations are always visible — the LLM flag only decides ambiguous ones.
+  if (wantsUS(prefs)) jobs.forEach(j => { if (j.location_match === false && clearlyUS(j.location)) j.location_match = true; });
 
   // Seen-state: only jobs never encountered before count as "new" for notifications.
   const seenPath = path.join(__dirname, 'seen.json');
