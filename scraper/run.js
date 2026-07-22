@@ -84,9 +84,34 @@ async function run() {
   // dedupe by url (fall back to id)
   const seen = new Set();
   all = all.filter(j => { const k = j.url || j.id; if (seen.has(k)) return false; seen.add(k); return true; });
-  console.log(`\n${all.length} unique jobs; scoring...`);
+  // Reuse scores from the previous run's live-data.js so only never-scored jobs hit the LLM.
+  // ponytail: prefs/prompt edits don't invalidate cached scores — delete live-data.js to force a rescore.
+  const resumeIds = loadResumes().map(r => r.id).sort().join(',');
+  const prevScores = {};
+  try {
+    const raw = fs.readFileSync(path.join(__dirname, 'live-data.js'), 'utf8');
+    const prev = JSON.parse(raw.slice(raw.indexOf('window.JH_DATA = ') + 'window.JH_DATA = '.length).replace(/;\s*$/, ''));
+    if (prev.META && prev.META.scoring_model) {
+      for (const j of prev.JOBS || []) {
+        // only reuse if the résumé set is unchanged, else scores would miss new résumés;
+        // skip neutral placeholders written when a past run had no API credit
+        if (String((j.why || [])[0] || '').startsWith('Not yet scored')) continue;
+        if (j.resume_scores && Object.keys(j.resume_scores).sort().join(',') === resumeIds) prevScores[j.url || j.id] = j;
+      }
+    }
+  } catch { /* first run or unreadable — score everything */ }
 
-  const { jobs, resumes, scored } = await scoreJobs(all, m => console.log('  ' + m), prefsPromptText(prefs));
+  const toScore = all.filter(j => !prevScores[j.url || j.id]);
+  console.log(`\n${all.length} unique jobs; ${all.length - toScore.length} scored last run, scoring ${toScore.length}...`);
+
+  const { jobs: newlyScored, resumes, scored } = await scoreJobs(toScore, m => console.log('  ' + m), prefsPromptText(prefs));
+  const scoredByKey = new Map(newlyScored.map(j => [j.url || j.id, j]));
+  const jobs = all.map(j => {
+    const hit = scoredByKey.get(j.url || j.id);
+    if (hit) return hit;
+    const p = prevScores[j.url || j.id];
+    return { ...j, resume_scores: p.resume_scores, best_resume_id: p.best_resume_id, why: p.why };
+  });
 
   // Seen-state: only jobs never encountered before count as "new" for notifications.
   const seenPath = path.join(__dirname, 'seen.json');
