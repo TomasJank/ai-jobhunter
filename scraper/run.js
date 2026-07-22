@@ -5,9 +5,9 @@ const path = require('path');
 // Load scraper/.env if present (native Node — no dotenv dep). Env vars / CI secrets still win.
 try { process.loadEnvFile(path.join(__dirname, '.env')); } catch { /* no .env file — fine */ }
 const { matchesKeywords, decodeEntities, loadSources } = require('./lib');
-const { scoreJobs, MODEL, loadResumes } = require('./score');
+const { scoreJobs, MODEL, loadResumes, SCORED_V } = require('./score');
 const { notifyTelegram, bestScore } = require('./notify');
-const { loadPrefs, passesSeniority, prefsPromptText } = require('./prefs');
+const { loadPrefs, passesSeniority, passesLocation, prefsPromptText } = require('./prefs');
 
 const SOURCES = {
   remoteok: require('./sources/remoteok'),
@@ -61,6 +61,7 @@ async function run() {
       jobs = jobs
         .filter(j => matchesKeywords(j, cfg.keywords))
         .filter(j => passesSeniority(j, prefs))   // drop deselected seniority levels (intern by default)
+        .filter(j => passesLocation(j, prefs))    // drop clearly-foreign locations before the cap eats slots
         .slice(0, PER_CONFIG_CAP);
       found[cfg.id] = jobs.length;
       all = all.concat(jobs);
@@ -96,7 +97,7 @@ async function run() {
         // only reuse if the résumé set is unchanged, else scores would miss new résumés;
         // skip neutral placeholders written when a past run had no API credit
         if (String((j.why || [])[0] || '').startsWith('Not yet scored')) continue;
-        if (!('location_match' in j)) continue;   // scored under the old schema — rescore once
+        if (j.scored_v !== SCORED_V) continue;   // scored under an older prompt/schema — rescore once
         if (j.resume_scores && Object.keys(j.resume_scores).sort().join(',') === resumeIds) prevScores[j.url || j.id] = j;
       }
     }
@@ -111,7 +112,7 @@ async function run() {
     const hit = scoredByKey.get(j.url || j.id);
     if (hit) return hit;
     const p = prevScores[j.url || j.id];
-    return { ...j, resume_scores: p.resume_scores, best_resume_id: p.best_resume_id, why: p.why, location_match: p.location_match };
+    return { ...j, resume_scores: p.resume_scores, best_resume_id: p.best_resume_id, why: p.why, location_match: p.location_match, scored_v: p.scored_v };
   });
 
   // Seen-state: only jobs never encountered before count as "new" for notifications.

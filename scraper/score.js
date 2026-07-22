@@ -6,6 +6,7 @@ const path = require('path');
 const { stripTags } = require('./lib');
 
 const MODEL = process.env.JH_SCORING_MODEL || 'claude-haiku-4-5';
+const SCORED_V = 2;   // bump when the scoring prompt/schema changes to invalidate cached scores
 
 function loadResumes() {
   const dir = path.join(__dirname, 'resumes');
@@ -66,9 +67,10 @@ async function scoreJob(job, resumes, schema, prefsText) {
       'Score the fit both ways: penalize roles clearly below the candidate\'s seniority (e.g. intern/junior ' +
       'roles for a senior profile) as well as roles above or outside their experience. ' +
       (prefsText ? prefsText + ' ' : '') +
-      'Set "location_match" to true only if the job can plausibly be done from the candidate\'s preferred ' +
-      'locations — it is located there, or is explicitly remote and open to workers there. If unclear, or if ' +
-      'no preferred locations are stated, set true. ' +
+      'Set "location_match" by comparing ONLY the job\'s posted location against the candidate\'s preferred ' +
+      'locations: true if the job is located in (or remote-open to) a preferred location, false if it is ' +
+      'clearly somewhere else. Ignore the candidate\'s current residence, seniority, visa, or overall fit — ' +
+      'this flag is about the job\'s geography only. If unclear, or no preferred locations are stated, set true. ' +
       'In "why", give 2–3 short reasons for the best-matching résumé, and refer to each résumé by its ' +
       'quoted name (e.g. "AI / Frontend Developer") — never by its JSON key/id. Output only the requested JSON.',
     messages: [{ role: 'user', content: `RESUMES:\n${resumeBlock}\n\nJOB:\n${jobText}` }],
@@ -107,7 +109,7 @@ async function scoreJobs(jobs, log = () => {}, prefsText = '') {
         log(`score failed for "${job.title}" (${e.message}) — retrying once`);
         r = await scoreJob(job, resumes, schema, prefsText);
       }
-      out.push({ ...job, resume_scores: r.scores, best_resume_id: r.best_resume_id, why: r.why || [], location_match: r.location_match !== false });
+      out.push({ ...job, resume_scores: r.scores, best_resume_id: r.best_resume_id, why: r.why || [], location_match: r.location_match !== false, scored_v: SCORED_V });
     } catch (e) {
       log(`score failed for "${job.title}": ${e.message}`);
       out.push(neutral(job, resumes));
@@ -116,4 +118,4 @@ async function scoreJobs(jobs, log = () => {}, prefsText = '') {
   return { jobs: out, resumes, scored: true };
 }
 
-module.exports = { scoreJobs, loadResumes, MODEL };
+module.exports = { scoreJobs, loadResumes, MODEL, SCORED_V };

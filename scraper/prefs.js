@@ -40,6 +40,32 @@ function passesSeniority(job, prefs) {
   return prefs.seniority.includes(level);
 }
 
+// Hard pre-filter: drop jobs whose location is CLEARLY outside the US, before the per-source
+// cap eats slots. Only active when prefs prefer the US. Ambiguous locations pass — the LLM
+// location_match flag is the accurate backstop downstream.
+// ponytail: denylist heuristic (ISO-3 codes + unambiguous names), not a geocoder — extend the list if junk slips through.
+const FOREIGN_RE = new RegExp('\\b(' + [
+  // country names
+  'china', 'india', 'japan', 'korea', 'taiwan', 'singapore', 'ireland', 'germany', 'france',
+  'spain', 'italy', 'poland', 'romania', 'czech', 'netherlands', 'belgium', 'sweden', 'denmark',
+  'norway', 'finland', 'switzerland', 'austria', 'portugal', 'hungary', 'brazil', 'mexico',
+  'canada', 'australia', 'israel', 'united kingdom', 'england', 'scotland', 'uk',
+  // unambiguous foreign tech-hub cities
+  'bengaluru', 'bangalore', 'shenzhen', 'beijing', 'shanghai', 'hyderabad', 'mumbai', 'pune',
+  'chennai', 'gurgaon', 'gurugram', 'noida', 'tokyo', 'osaka', 'seoul', 'taipei', 'warsaw',
+  'krakow', 'prague', 'bucharest', 'amsterdam', 'tel aviv', 'sydney', 'melbourne', 'toronto',
+  'vancouver', 'montreal', 'zurich', 'munich', 'luxembourg', 'london',
+].join('|') + ')\\b', 'i');
+
+function passesLocation(job, prefs) {
+  const wantsUS = (prefs.locations || []).join(' ').match(/united states|usa|\bu\.?s\.?\b|america/i);
+  if (!wantsUS) return true;
+  const loc = job.location || '';
+  const iso = loc.match(/,\s*([A-Z]{3})\b/);          // Amazon-style "City, CC" / "City, Region, DEU"
+  if (iso && iso[1] !== 'USA') return false;
+  return !FOREIGN_RE.test(loc);
+}
+
 // Soft signal fed into the scoring prompt so Claude down-ranks (not drops) mismatches.
 function prefsPromptText(prefs) {
   const loc = prefs.locations && prefs.locations.length ? prefs.locations.join(', ') : 'any';
@@ -52,4 +78,4 @@ function prefsPromptText(prefs) {
     `location when remote is preferred. A great role that's a mild geographic mismatch should still score well.`;
 }
 
-module.exports = { loadPrefs, seniorityLevel, passesSeniority, prefsPromptText, DEFAULTS, SENIORITY_LEVELS, WORK_MODES };
+module.exports = { loadPrefs, seniorityLevel, passesSeniority, passesLocation, prefsPromptText, DEFAULTS, SENIORITY_LEVELS, WORK_MODES };
