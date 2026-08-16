@@ -95,7 +95,7 @@ function prefsPromptText(prefs) {
   const loc = prefs.locations && prefs.locations.length ? prefs.locations.join(', ') : 'any';
   const modes = prefs.work_modes && prefs.work_modes.length ? prefs.work_modes.join('/') : 'any';
   const sen = prefs.seniority && prefs.seniority.length && prefs.seniority.length < SENIORITY_LEVELS.length
-    ? ` The candidate ONLY wants these seniority levels: ${prefs.seniority.join('/')} — a role clearly at another level (e.g. a regular full-time position when only "intern" is wanted) must score 4 or lower.`
+    ? ` The candidate ONLY wants these seniority levels: ${prefs.seniority.join('/')} — a role clearly at another level (e.g. a regular full-time position when only "intern" is wanted) must score 4 or lower. They are seeking this level deliberately: exceeding what the role asks for is NOT a mismatch and must never lower the score. A role at a wanted level scores on domain fit alone, however experienced the résumé reads.`
     : '';
   return `Candidate preferences — preferred locations: ${loc}; preferred work mode: ${modes}.${sen} ` +
     `Lower the score (do NOT zero it) for jobs that clearly don't fit these, e.g. onsite-only in a far ` +

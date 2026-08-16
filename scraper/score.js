@@ -6,7 +6,7 @@ const path = require('path');
 const { stripTags } = require('./lib');
 
 const MODEL = process.env.JH_SCORING_MODEL || 'claude-haiku-4-5';
-const SCORED_V = 2;   // bump when the scoring prompt/schema changes to invalidate cached scores
+const SCORED_V = 3;   // bump when the scoring prompt/schema changes to invalidate cached scores
 
 function loadResumes() {
   const dir = path.join(__dirname, 'resumes');
@@ -64,8 +64,10 @@ async function scoreJob(job, resumes, schema, prefsText) {
     max_tokens: 1024,
     system:
       'You score how well each résumé fits a job on a 0–10 scale (10 = perfect fit, <6 = weak). ' +
-      'Score the fit both ways: penalize roles clearly below the candidate\'s seniority (e.g. intern/junior ' +
-      'roles for a senior profile) as well as roles above or outside their experience. ' +
+      // Judge the level from the ROLE against the stated preference — never from how senior the
+      // résumé reads. Scoring "overqualified" sank every internship when intern was the wanted level.
+      'Judge seniority against the candidate\'s stated preference below, not against how senior the ' +
+      'résumé looks. Penalize roles outside the wanted level, and roles outside their domain. ' +
       (prefsText ? prefsText + ' ' : '') +
       'Set "location_match" by comparing ONLY the job\'s posted location against the candidate\'s preferred ' +
       'locations: true if the job is located in (or remote-open to) a preferred location, false if it is ' +
