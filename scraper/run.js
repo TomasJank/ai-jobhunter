@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 // Load scraper/.env if present (native Node — no dotenv dep). Env vars / CI secrets still win.
 try { process.loadEnvFile(path.join(__dirname, '.env')); } catch { /* no .env file — fine */ }
-const { matchesKeywords, decodeEntities, loadSources } = require('./lib');
+const { matchesKeywords, decodeEntities, byNewest, loadSources } = require('./lib');
 const { scoreJobs, MODEL, loadResumes, SCORED_V } = require('./score');
 const { notifyTelegram, bestScore } = require('./notify');
 const { loadPrefs, passesSeniority, passesLocation, wantsUS, clearlyUS, prefsPromptText } = require('./prefs');
@@ -22,10 +22,11 @@ const SOURCES = {
   pcsx: require('./sources/pcsx'),
   radancy: require('./sources/radancy'),
   ibm: require('./sources/ibm'),
+  github: require('./sources/github'),
 };
 
 // ponytail: cap per source to bound runtime + LLM cost. Raise JH_PER_CONFIG_CAP if you want more.
-const PER_CONFIG_CAP = Number(process.env.JH_PER_CONFIG_CAP || 8);
+const PER_CONFIG_CAP = Number(process.env.JH_PER_CONFIG_CAP || 40);
 
 function sourceUrl(c) {
   if (c.source === 'remoteok') return 'https://remoteok.com/api';
@@ -39,6 +40,7 @@ function sourceUrl(c) {
   if (c.source === 'jobspy') return `jobspy:${c.site || 'indeed'}`;
   if (c.source === 'pcsx' || c.source === 'radancy') return c.base || '';
   if (c.source === 'ibm') return 'https://www.ibm.com/careers';
+  if (c.source === 'github') return `https://github.com/${c.repo}`;
   return '';
 }
 
@@ -62,6 +64,7 @@ async function run() {
         .filter(j => matchesKeywords(j, cfg.keywords))
         .filter(j => passesSeniority(j, prefs))   // drop deselected seniority levels (intern by default)
         .filter(j => passesLocation(j, prefs))    // drop clearly-foreign locations before the cap eats slots
+        .sort(byNewest)
         .slice(0, PER_CONFIG_CAP);
       found[cfg.id] = jobs.length;
       all = all.concat(jobs);

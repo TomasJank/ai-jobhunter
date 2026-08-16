@@ -1,7 +1,7 @@
 [
   {
     "id": "cfg_remoteok",
-    "name": "Remote OK \u2014 frontend",
+    "name": "Remote OK — frontend",
     "source": "remoteok",
     "active": true,
     "keywords": [
@@ -15,7 +15,7 @@
   },
   {
     "id": "cfg_wwr_fe",
-    "name": "WeWorkRemotely \u2014 Front-End",
+    "name": "WeWorkRemotely — Front-End",
     "source": "weworkremotely",
     "category": "remote-front-end-programming-jobs",
     "active": true,
@@ -33,7 +33,7 @@
   },
   {
     "id": "cfg_hn_hiring",
-    "name": "HN \u2014 Who is hiring",
+    "name": "HN — Who is hiring",
     "source": "hackernews",
     "active": true,
     "keywords": [
@@ -44,7 +44,7 @@
   },
   {
     "id": "cfg_gh_stripe",
-    "name": "Greenhouse \u2014 Stripe",
+    "name": "Greenhouse — Stripe",
     "source": "ats",
     "provider": "greenhouse",
     "slug": "stripe",
@@ -58,7 +58,7 @@
   },
   {
     "id": "cfg_ashby_ramp",
-    "name": "Ashby \u2014 Ramp",
+    "name": "Ashby — Ramp",
     "source": "ats",
     "provider": "ashby",
     "slug": "ramp",
@@ -71,7 +71,7 @@
   },
   {
     "id": "cfg_amazon",
-    "name": "Amazon \u2014 frontend",
+    "name": "Amazon — frontend",
     "source": "amazon",
     "query": "front end engineer",
     "active": true,
@@ -86,7 +86,7 @@
   },
   {
     "id": "cfg_wd_nvidia",
-    "name": "Workday \u2014 Nvidia",
+    "name": "Workday — Nvidia",
     "source": "ats",
     "provider": "workday",
     "host": "nvidia.wd5.myworkdayjobs.com",
@@ -103,7 +103,7 @@
   },
   {
     "id": "cfg_sr_visa",
-    "name": "SmartRecruiters \u2014 Visa",
+    "name": "SmartRecruiters — Visa",
     "source": "ats",
     "provider": "smartrecruiters",
     "slug": "Visa",
@@ -135,7 +135,7 @@
   },
   {
     "id": "cfg_apple",
-    "name": "Apple \u2014 frontend",
+    "name": "Apple — frontend",
     "source": "apple",
     "query": "frontend engineer",
     "active": true,
@@ -149,7 +149,7 @@
   },
   {
     "id": "cfg_google",
-    "name": "Google \u2014 frontend",
+    "name": "Google — frontend",
     "source": "google",
     "query": "frontend",
     "active": true,
@@ -162,7 +162,7 @@
   },
   {
     "id": "cfg_indeed",
-    "name": "Indeed (JobSpy) \u2014 remote frontend",
+    "name": "Indeed (JobSpy) — remote frontend",
     "source": "jobspy",
     "site": "indeed",
     "query": "frontend developer remote",
@@ -176,6 +176,50 @@
       "javascript",
       "ui",
       "web"
+    ]
+  },
+  {
+    "id": "cfg_gh_vanshb03",
+    "name": "GitHub — vanshb03 Summer 2027",
+    "source": "github",
+    "repo": "vanshb03/Summer2027-Internships",
+    "file": ".github/scripts/listings.json",
+    "branch": "dev",
+    "active": true,
+    "keywords": [
+      "front*",
+      "react",
+      "ui",
+      "web",
+      "software"
+    ]
+  },
+  {
+    "id": "cfg_gh_speedyapply",
+    "name": "GitHub — speedyapply 2027 SWE College",
+    "source": "github",
+    "repo": "speedyapply/2027-SWE-College-Jobs",
+    "active": true,
+    "keywords": [
+      "front*",
+      "react",
+      "ui",
+      "web",
+      "software"
+    ]
+  },
+  {
+    "id": "cfg_gh_sndsh404",
+    "name": "GitHub — sndsh404 Summer 2027",
+    "source": "github",
+    "repo": "sndsh404/summer-2027-internships",
+    "active": true,
+    "keywords": [
+      "front*",
+      "react",
+      "ui",
+      "web",
+      "software"
     ]
   }
 ]

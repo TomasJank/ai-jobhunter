@@ -105,6 +105,27 @@ assert.strictEqual(radAfter[0].title, 'Network Engineer');
 assert.strictEqual(radAfter[0].location, 'Whippany (United States)');
 assert.strictEqual(parseRadancy('<a href="/job/a/b/1/2"><h2>X</h2></a><a href="/job/a/b/1/2"><h2>X</h2></a>', 'x').length, 1, 'duplicate job urls collapse');
 
+// GitHub internship-list Markdown tables — columns come from the header row
+const { parseTable, cellDate } = require('./sources/github');
+const ghMd = [
+  '| Company | Position | Location | Salary | Posting | Age |',
+  '|---|---|---|---|---|---|',
+  '| <a href="https://www.nvidia.com"><strong>NVIDIA</strong></a> | SWE Intern | St. Louis, MO | $62/hr | <a href="https://nvidia.wd5.myworkdayjobs.com/job/1"><img src="x.png"/></a> | 26d |',
+  '| ↳ | ML Intern | Remote | | <a href="https://nvidia.wd5.myworkdayjobs.com/job/2"></a> | 3d |',
+  '| Susquehanna | Quant Intern | New York, NY | | [apply](https://careers.sig.com/jobs/10822) | 2026-07-21 |',
+  '| Broken | No Link Here | Nowhere | | | 1d |',
+].join('\n');
+const ghRows = parseTable(ghMd);
+assert.strictEqual(ghRows.length, 3, 'rows without an apply link are dropped');
+assert.strictEqual(ghRows[0].company, 'NVIDIA', 'company link markup stripped');
+assert.strictEqual(ghRows[0].url, 'https://nvidia.wd5.myworkdayjobs.com/job/1', 'company website is not the apply URL');
+assert.strictEqual(ghRows[0].salary, '$62/hr');
+assert.strictEqual(ghRows[1].company, 'NVIDIA', '↳ inherits the company above');
+assert.strictEqual(ghRows[2].url, 'https://careers.sig.com/jobs/10822', '[apply](url) markdown link');
+assert.ok(cellDate('2026-07-21').startsWith('2026-07-21'), 'ISO date column');
+assert.ok(Date.now() - Date.parse(cellDate('26d')) > 25 * 86400e3, 'relative age column');
+assert.strictEqual(cellDate('n/a'), '', 'unparseable date -> empty');
+
 // loadSources: personal sources.json wins; fresh checkout falls back to defaults
 const { loadSources } = require('./lib');
 const os = require('os'), fsT = require('fs'), pathT = require('path');
@@ -126,5 +147,20 @@ const prefsNoIntern = { seniority: ['junior', 'mid', 'senior', 'staff', 'lead', 
 assert.ok(!passesSeniority({ title: 'Frontend Intern' }, prefsNoIntern), 'intern dropped when deselected');
 assert.ok(passesSeniority({ title: 'Frontend Engineer' }, prefsNoIntern), 'unknown level kept');
 assert.ok(passesSeniority({ title: 'Senior Engineer' }, prefsNoIntern), 'selected level kept');
+
+// byNewest: the per-source cap must keep the newest postings, not the board's own order
+const { byNewest } = require('./lib');
+const board = [
+  { title: 'evergreen', posted_at: '2016-10-06T00:00:00Z' },
+  { title: 'stale', posted_at: '2021-07-01T00:00:00Z' },
+  { title: 'fresh', posted_at: '2026-07-31T00:00:00Z' },
+];
+assert.deepStrictEqual([...board].sort(byNewest).map(j => j.title), ['fresh', 'stale', 'evergreen']);
+assert.strictEqual([...board].sort(byNewest).slice(0, 1)[0].title, 'fresh', 'a cap of 1 keeps the newest');
+const undated = [{ title: 'a' }, { title: 'b' }, { title: 'c' }];
+assert.deepStrictEqual([...undated].sort(byNewest).map(j => j.title), ['a', 'b', 'c'], 'all-undated keeps source order');
+assert.deepStrictEqual(
+  [{ title: 'no date' }, { title: 'dated', posted_at: '2026-01-01T00:00:00Z' }].sort(byNewest).map(j => j.title),
+  ['dated', 'no date'], 'undated sort last, never ahead of a real posting');
 
 console.log('ok — all self-checks passed');

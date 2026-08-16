@@ -67,6 +67,7 @@ Each entry is a scraper config. `active: false` skips it. Supported `source` val
 | `apple`          | optional `query`          | ⚠️ experimental — headless Chrome (Akamai blocks plain HTTP); times out often |
 | `google`         | optional `query`          | ⚠️ experimental — Google Careers via headless Chrome; times out often |
 | `jobspy`         | `site` + `query`          | Indeed / Google Jobs via JobSpy (Python) |
+| `github`         | `repo` (`owner/name`)     | community internship lists; optional `file` (default `README.md`) + `branch` (default `main`). `.json` files use the SimplifyJobs listings schema, `.md` files are parsed as a table using their header row |
 
 `apple`/`google` are best-effort: they need Chrome or Chromium installed (auto-detected;
 override with `JH_CHROME`) and still time out frequently behind anti-bot protection —
@@ -128,7 +129,7 @@ Threshold via `JH_NOTIFY_MIN_SCORE` (default 6). Requires scoring to be enabled.
 
 - `ANTHROPIC_API_KEY` — enables scoring
 - `JH_SCORING_MODEL` — scoring model (default `claude-haiku-4-5`)
-- `JH_PER_CONFIG_CAP` — max jobs kept per source (default 8; bounds runtime + LLM cost)
+- `JH_PER_CONFIG_CAP` — max jobs kept per source, newest first (default 40; bounds runtime + LLM cost)
 - `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` — enables Telegram reports
 - `JH_NOTIFY_MIN_SCORE` — Telegram score threshold (default 6)
 

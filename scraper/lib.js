@@ -119,6 +119,12 @@ function matchesKeywords(job, keywords) {
   });
 }
 
+// Newest-first. The per-source cap must eat the OLDEST postings, never the newest:
+// board order is arbitrary (Lever serves evergreen 2016 reqs first), so slicing it
+// unsorted froze the visible window and new postings never reached seen.json.
+// Undated jobs compare equal and keep source order (Array#sort is stable).
+const byNewest = (a, b) => String(b.posted_at || '').localeCompare(String(a.posted_at || ''));
+
 // Source configs: the user's sources.json (gitignored — personal) wins; fresh
 // checkouts fall back to the shipped sources.default.json. First save from the
 // UI materializes sources.json.
@@ -130,4 +136,4 @@ function loadSources(dir) {
   return [];
 }
 
-module.exports = { UA, fetchText, fetchJSON, postJSON, chromeFetch, stripTags, decodeEntities, mdToHtml, relTime, hashId, matchesKeywords, loadSources };
+module.exports = { UA, fetchText, fetchJSON, postJSON, chromeFetch, stripTags, decodeEntities, mdToHtml, relTime, hashId, matchesKeywords, byNewest, loadSources };
